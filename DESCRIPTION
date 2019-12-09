@@ -11,7 +11,7 @@ Authors@R: c(person(given = "Claudia",
              person("Maëlle", "Salmon", role = c("ctb"), comment = "Maëlle Salmon reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/68"),
              person("Hao", "Zhu", role = c("ctb"), comment = "Hao Zhu reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/68"))
 Maintainer: Claudia Vitolo <cvitolodev@gmail.com>
-URL: https://github.com/ropensci/rdefra
+URL: https://docs.ropensci.org/rdefra, https://github.com/ropensci/rdefra
 BugReports: https://github.com/ropensci/rdefra/issues
 Description: Get data from DEFRA's UK-AIR website <https://uk-air.defra.gov.uk/>. It basically scrapes the HTML content.
 Depends: R (>= 2.10)
