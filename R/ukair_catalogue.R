@@ -136,14 +136,9 @@ ukair_catalogue <- function(site_name = "",
 
   if (!is.na(catalogue_csv_link)) {
 
-    df <- utils::read.csv(catalogue_csv_link)
-    
-    j <- as.numeric(which(unlist(lapply(df, is.factor))))
-    # Convert data.frame columns from factors to characters
-    df[, j] <- lapply(df[, j], as.character)
+    df <- utils::read.csv(catalogue_csv_link, stringsAsFactors = FALSE)
 
     # remove trailing and leading white spaces
-    # http://stackoverflow.com/questions/24172111/change-the-blank-cells-to-na
     df <- data.frame(apply(df, 2, function(x) trimws(x)),
                      stringsAsFactors = FALSE)
 
@@ -162,21 +157,22 @@ ukair_catalogue <- function(site_name = "",
     suppressWarnings(df[, "End.Date"] <- lubridate::ymd(df[, "End.Date"],
                                                    tz = "Europe/London"))
 
+    # Convert to numeric
     df[, "Northing"] <- as.numeric(as.character(df[, "Northing"]))
     df[, "Easting"] <- as.numeric(as.character(df[, "Easting"]))
     df[, "Latitude"] <- as.numeric(as.character(df[, "Latitude"]))
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
 
-    # Convert to tibble and remove non-ASCII characters
-    df$Site.Description <- iconv(x = df$Site.Description,
-                                 from = "latin1", to = "ASCII", sub = "")
+    # Remove non-ASCII characters
+    for (colx in 1:dim(df)[2]){
+      if ("character" %in% class(df[, colx])){
+        df[, colx] <- iconv(x = df[, colx],
+                            from = "latin1", to = "ASCII", sub = "")
+      }
+    }
 
     return(tibble::as_tibble(df))
-
-  }else{
-
-    stop("No metadata available for the specified query")
 
   }
 
