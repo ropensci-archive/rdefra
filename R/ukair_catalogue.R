@@ -166,9 +166,12 @@ ukair_catalogue <- function(site_name = "",
 
     # Remove non-ASCII characters
     for (colx in 1:dim(df)[2]){
-      if ("character" %in% class(df[, colx])){
+      if ("character" %in% class(df[, colx]) &
+          length(grep("[^ -~]", df[, colx])) > 0){
         df[, colx] <- iconv(x = df[, colx],
                             from = "latin1", to = "ASCII", sub = "")
+        # Remove carriage return
+        df[, colx] <- gsub("\\n", "", df[, colx])
       }
     }
 
