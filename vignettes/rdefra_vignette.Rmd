@@ -9,7 +9,7 @@ vignette: >
   %\usepackage[UTF-8]{inputenc}
 ---
 
-```{r echo=FALSE}
+```{r setup, echo=FALSE}
 knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
@@ -36,7 +36,7 @@ The rdefra package depends on two things:
 
 * Some additional CRAN packages. Check for missing dependencies and install them using the commands below:
 
-```{r}
+```{r dependencies}
 packs <- c("httr", "xml2", "lubridate", "tibble", "dplyr", "sp", "devtools",
            "leaflet", "zoo", "testthat", "knitr", "Rmarkdown")
 new.packages <- packs[!(packs %in% installed.packages()[,"Package"])]
@@ -47,19 +47,19 @@ if(length(new.packages)) install.packages(new.packages)
 
 Get the released version from CRAN:
 
-```{r}
+```{r installation_cran}
 install.packages("rdefra")
 ```
 
 Or the development version from github using [devtools](https://github.com/hadley/devtools):
 
-```{r}
+```{r installation_github}
 devtools::install_github("ropensci/rdefra")
 ```
 
 Load the rdefra package:
 
-```{r, eval = TRUE}
+```{r load_library, eval = TRUE}
 library("rdefra")
 ```
 
@@ -73,7 +73,7 @@ The package logic assumes that users access the UK-AIR database in two steps:
 ### Get metadata catalogue
 DEFRA monitoring stations can be downloaded and filtered using the function `ukair_catalogue()` with no input parameters, as in the example below. 
 
-```{r, eval = TRUE}
+```{r catalogue_full, eval = TRUE}
 # Get full catalogue
 stations_raw <- ukair_catalogue()
 ```
@@ -87,7 +87,7 @@ The same function, can be used to filter the catalogue using the following input
 * `country_id` This is the identification number of the country, it can be an integer between 1 and 6. Default is 9999, which means all the countries.
 * `region_id` This is the identification number of the region. 1 = Aberdeen City, etc. (for the full list see https://uk-air.defra.gov.uk/). Default is 9999, which means all the local authorities.
 
-```{r, eval = TRUE}
+```{r catalogue_filter, eval = TRUE}
 stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
 ```
 
@@ -96,7 +96,7 @@ The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` st
 ### Get missing coordinates
 Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing (coordinates in the British National Grid) from DEFRA's web pages. Get E and N, transform them to latitude and longitude and populate the missing coordinates using the code below.
 
-```{r}
+```{r get_coords}
 # Scrape DEFRA website to get Easting/Northing
 stations <- ukair_get_coordinates(stations_raw)
 ```
@@ -106,7 +106,7 @@ Pollution data started to be collected in 1972 and consists of hourly concentrat
 
 The ID under which they are available differs from the UK.AIR.ID. The catalogue does not contain this additional station ID (called SiteID hereafter) but DEFRA's web pages contain references to both the UK.AIR.ID and the SiteID. The function below uses as input the UK.AIR.ID and outputs the SiteID, if available. 
 
-```{r}
+```{r get_site_id}
 stations$SiteID <- ukair_get_site_id(stations$UK.AIR.ID)
 ```
 
@@ -114,7 +114,7 @@ stations$SiteID <- ukair_get_site_id(stations$UK.AIR.ID)
 
 The time series for a given station can be retrieved in one line of code:
 
-```{r, eval = TRUE}
+```{r get_hourly_data, eval = TRUE}
 # Get 1 year of hourly ozone data from London Marylebone Road monitoring station
 df <- ukair_get_hourly_data("MY1", years=2015)
 
@@ -123,7 +123,7 @@ library("zoo")
 my1 <- zoo(x = df$Ozone, order.by = as.POSIXlt(df$datetime))
 ```
 
-```{r hourlydata}
+```{r get_hourly_data_2}
 par(mai = c(0.5, 1, 0, 0)) 
 
 plot(aggregate(my1, as.Date(as.POSIXlt(df$datetime)), mean), 
@@ -165,7 +165,7 @@ The above box plots show that the highest concentrations usually occurr during A
 
 For convenience, a cached version of the catalogue (last updated in August 2016) is included in the package and can be loaded using the following command:
 
-```{r, eval = TRUE}
+```{r load_dataset_stations, eval = TRUE}
 data("stations")
 
 stations
@@ -220,7 +220,7 @@ dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != 
 
 The acquisition of data from hundreds of sites takes only few minutes:
 
-```{r}
+```{r parallel_example}
 library("parallel")
  
 # Use detectCores() to find out many cores are available on your machine
