@@ -168,6 +168,10 @@ ukair_catalogue <- function(site_name = "",
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
 
+    # Convert to tibble and remove non-ASCII characters
+    df$Site.Description <- iconv(x = df$Site.Description,
+                                 from = "latin1", to = "ASCII", sub = "")
+
     return(tibble::as_tibble(df))
 
   }else{

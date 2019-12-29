@@ -14,15 +14,14 @@ knitr::opts_chunk$set(
   comment = "#>",
   collapse = TRUE,
   warning = FALSE,
-  message = FALSE,
-  eval = FALSE
+  message = FALSE
 )
 ```
 
 # Introduction
-The package rdefra allows to retrieve air pollution data from the Air Information Resource (UK-AIR, https://uk-air.defra.gov.uk/) of the Department for Environment, Food and Rural Affairs in the United Kingdom. UK-AIR does not provide a public API for programmatic access to data, therefore this package scrapes the HTML pages to get relevant information.
+The package rdefra allows to retrieve air pollution data from the Air Information Resource (UK-AIR, https://uk-air.defra.gov.uk/) of the Department for Environment, Food and Rural Affairs (DEFRA) in the United Kingdom. UK-AIR does not provide a public API for programmatic access to data, therefore this package scrapes the HTML pages to get relevant information.
 
-This package follows a logic similar to other packages such as waterData and rnrfa: sites are first identified through a catalogue, data are imported via the station identification number, then data are visualised and/or used in analyses. The metadata related to the monitoring stations are accessible through the function `ukair_catalogue()`, missing stations' coordinates can be obtained using the function `ukair_get_coordinates()`, and time series data related to different pollutants can be obtained using the function `ukair_get_hourly_data()`.
+This package follows a logic similar to other packages such as waterData and rnrfa: sites are first identified through a catalogue, data are imported via the station identification number, then visualised and/or used in analyses. The information related to the monitoring stations is accessible through the function `ukair_catalogue()`. Some station may have missing coordinates, which can be recovered using the function `ukair_get_coordinates()`. Lastly, time series data related to different pollutants can be obtained using the function `ukair_get_hourly_data()`.
 
 The package is designed to collect data efficiently. It allows to download multiple years of data for a single station with one line of code and, if used with the parallel package, allows the acquisition of data from hundreds of sites in only few minutes.
 
@@ -36,7 +35,7 @@ The rdefra package depends on two things:
 
 * Some additional CRAN packages. Check for missing dependencies and install them using the commands below:
 
-```{r dependencies}
+```{r dependencies, eval = FALSE}
 packs <- c("httr", "xml2", "lubridate", "tibble", "dplyr", "sp", "devtools",
            "leaflet", "zoo", "testthat", "knitr", "Rmarkdown")
 new.packages <- packs[!(packs %in% installed.packages()[,"Package"])]
@@ -47,19 +46,19 @@ if(length(new.packages)) install.packages(new.packages)
 
 Get the released version from CRAN:
 
-```{r installation_cran}
+```{r installation_cran, eval = FALSE}
 install.packages("rdefra")
 ```
 
 Or the development version from github using [devtools](https://github.com/hadley/devtools):
 
-```{r installation_github}
+```{r installation_github, eval = FALSE}
 devtools::install_github("ropensci/rdefra")
 ```
 
 Load the rdefra package:
 
-```{r load_library, eval = TRUE}
+```{r load_library}
 library("rdefra")
 ```
 
@@ -70,12 +69,13 @@ The package logic assumes that users access the UK-AIR database in two steps:
 1. Browse the catalogue of available stations and selects some stations of interest.
 2. Retrieves data for the selected stations.
 
-### Get metadata catalogue
-DEFRA monitoring stations can be downloaded and filtered using the function `ukair_catalogue()` with no input parameters, as in the example below. 
+### Get stations catalogue
+The list of monitoring stations can be downloaded using the function `ukair_catalogue()` with no input parameters, as in the example below. 
 
 ```{r catalogue_full, eval = TRUE}
 # Get full catalogue
-stations_raw <- ukair_catalogue()
+stations <- ukair_catalogue()
+stations
 ```
 
 The same function, can be used to filter the catalogue using the following input parameters:
@@ -93,12 +93,22 @@ stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
 
 The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` stations in England in which ozone is measured.
 
+## Cached catalogue
+
+For convenience, a cached version of the catalogue (last updated in August 2016) is included in the package and can be loaded using the following command:
+
+```{r load_dataset_stations, eval = FALSE}
+data("stations")
+```
+
+The cached catalogue contains all the available site IDs and coordinates and can be quickly used as lookup table to find out the correspondence between the UK.AIR.ID and SiteID, as well as to investigate station characteristics. 
+
 ### Get missing coordinates
 Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing (coordinates in the British National Grid) from DEFRA's web pages. Get E and N, transform them to latitude and longitude and populate the missing coordinates using the code below.
 
 ```{r get_coords}
 # Scrape DEFRA website to get Easting/Northing
-stations <- ukair_get_coordinates(stations_raw)
+stations <- ukair_get_coordinates(stations)
 ```
 
 ### Check hourly data availability
@@ -106,7 +116,7 @@ Pollution data started to be collected in 1972 and consists of hourly concentrat
 
 The ID under which they are available differs from the UK.AIR.ID. The catalogue does not contain this additional station ID (called SiteID hereafter) but DEFRA's web pages contain references to both the UK.AIR.ID and the SiteID. The function below uses as input the UK.AIR.ID and outputs the SiteID, if available. 
 
-```{r get_site_id}
+```{r get_site_id, eval = FALSE}
 stations$SiteID <- ukair_get_site_id(stations$UK.AIR.ID)
 ```
 
@@ -121,21 +131,16 @@ df <- ukair_get_hourly_data("MY1", years=2015)
 # Aggregate to daily means and plot
 library("zoo")
 my1 <- zoo(x = df$Ozone, order.by = as.POSIXlt(df$datetime))
+
+daily_means <- aggregate(my1, as.Date(as.POSIXlt(df$datetime)), mean)
+
+plot(daily_means, main = "", xlab = "",
+     ylab = expression(paste("Ozone concentration [", mu, "g/", m^3, "]")))
 ```
-
-```{r get_hourly_data_2}
-par(mai = c(0.5, 1, 0, 0)) 
-
-plot(aggregate(my1, as.Date(as.POSIXlt(df$datetime)), mean), 
-     main = "", xlab = "", ylab = expression(paste("Ozone concentration [",
-                                                    mu, "g/", m^3, "]")))
-```
-
-![Hourly ozone data from London Marylebone Road monitoring station](hourlydata-1.png)
 
 Highest concentrations seem to happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.
 
-```{r ozone}
+```{r ozone, eval = FALSE}
 # Get 15 years of hourly ozone data from the same monitoring station
 library("ggplot2")
 library("dplyr")
@@ -157,29 +162,15 @@ df %>%
   ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")")))
 ```
 
-![15 years of hourly ozone data from London Marylebone Road monitoring station](ozone-1.png)
-
-The above box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.  
-
-## Cached catalogue
-
-For convenience, a cached version of the catalogue (last updated in August 2016) is included in the package and can be loaded using the following command:
-
-```{r load_dataset_stations, eval = TRUE}
-data("stations")
-
-stations
-```
-
-The cached catalogue contains all the available site IDs and coordinates and can be quickly used as lookup table to find out the correspondence between the UK.AIR.ID and SiteID, as well as to investigate station characteristics. 
+The above box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
 
 ## Applications
 
 ### Plotting stations' locations 
 
-In the raw catalogue, `r length(which(complete.cases(stations_raw[, c("Latitude", "Longitude")])))` stations contain valid coordinates. After scraping DEFRA's web pages, the number of stations with valid coordinates rises to `r length(which(complete.cases(stations[, c("Latitude", "Longitude")])))`. In the figure below, blue circles show all the stations with valid coordinates, while red circles show stations with available hourly data.
+In the raw catalogue, `r length(which(complete.cases(stations[, c("Latitude", "Longitude")])))` stations contain valid coordinates. After scraping DEFRA's web pages, the number of stations with valid coordinates rises to `r length(which(complete.cases(stations[, c("Latitude", "Longitude")])))`. In the figure below, blue circles show all the stations with valid coordinates, while red circles show stations with available hourly data.
 
-```{r map}
+```{r map, eval = FALSE}
 stations_with_Hdata <- which(!is.na(stations$SiteID))
 
 library("leaflet")
@@ -195,32 +186,25 @@ leaflet(data = stations) %>% addTiles() %>%
 
 ```
 
-![Blue circles show stations with valid coordinates, while red circles show stations with available hourly data](map-1.png)
-
 ### Analyse the spatial distribution of the monitoring stations
 
 Below are two plots showing the spatial distribution of the monitoring stations. These are concentrated largely in urban areas and mostly estimate the background level of concentration of pollutants.
 
-```{r dotchart1}
+```{r dotchart1, eval = FALSE}
 # Zone
 dotchart(as.matrix(table(stations$Zone))[,1])
 ```
 
-![Dotchart1](dotchart1-1.png)
-
-
-```{r dotchart2}
+```{r dotchart2, eval = FALSE}
 # Environment.Type
 dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != "Unknown Unknown"]))[,1])
 ```
-
-![Dotchart2](dotchart2-1.png)
 
 ### Use multiple cores to speed up data retrieval from numerous sites
 
 The acquisition of data from hundreds of sites takes only few minutes:
 
-```{r parallel_example}
+```{r parallel_example, eval = FALSE}
 library("parallel")
  
 # Use detectCores() to find out many cores are available on your machine
