@@ -50,6 +50,7 @@ NULL
 #'   \item{\code{Networks}}{Monitoring Networks}
 #'   \item{\code{AURN.Pollutants.Measured}}{Pollutant measured}
 #'   \item{\code{Site.Description}}{Site.Description}
+#'   \item{\code{SiteID}}{Site ID, used to retrieve time series data.}
 #' }
 #'
 #' @keywords datasets
