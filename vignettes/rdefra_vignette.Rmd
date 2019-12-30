@@ -24,3 +24,30 @@ The package rdefra allows to retrieve air pollution data from the Air Informatio
 This package follows a logic similar to other packages such as waterData and rnrfa: sites are first identified through a catalogue, data are imported via the station identification number, then visualised and/or used in analyses. The information related to the monitoring stations is accessible through the function `ukair_catalogue()`. Some station may have missing coordinates, which can be recovered using the function `ukair_get_coordinates()`. Lastly, time series data related to different pollutants can be obtained using the function `ukair_get_hourly_data()`.
 
 The package is designed to collect data efficiently. It allows to download multiple years of data for a single station with one line of code and, if used with the parallel package, allows the acquisition of data from hundreds of sites in only few minutes.
+
+## Installation
+
+Get the released version from CRAN:
+
+```{r installation_cran, eval = FALSE}
+install.packages("rdefra")
+```
+
+Or the development version from github using [devtools](https://github.com/hadley/devtools):
+
+```{r installation_github, eval = FALSE}
+devtools::install_github("ropensci/rdefra")
+```
+
+Load the rdefra package:
+
+```{r load_library}
+library("rdefra")
+```
+
+## Functions
+
+The package logic assumes that users access the UK-AIR database in two steps:
+
+1. Browse the catalogue of available stations and selects some stations of interest.
+2. Retrieves data for the selected stations.
