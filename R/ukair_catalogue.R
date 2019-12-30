@@ -164,10 +164,12 @@ ukair_catalogue <- function(site_name = "",
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
 
-    # Remove non-ASCII characters
+    # Loop through character columns
     for (colx in 1:dim(df)[2]){
       if ("character" %in% class(df[, colx]) &
           length(grep("[^ -~]", df[, colx])) > 0){
+        # Remove non-ASCII characters
+        Encoding(df[, colx]) <- "latin1"
         df[, colx] <- iconv(x = df[, colx],
                             from = "latin1", to = "ASCII", sub = "")
         # Remove carriage return
