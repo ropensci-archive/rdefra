@@ -164,18 +164,7 @@ ukair_catalogue <- function(site_name = "",
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
 
-    # Loop through character columns
-    for (colx in 1:dim(df)[2]){
-      if ("character" %in% class(df[, colx]) &
-          length(grep("[^ -~]", df[, colx])) > 0){
-        # Remove non-ASCII characters
-        tempcol <- as.character(df[, colx])
-        Encoding(tempcol) <- "latin1"
-        tempcol <- iconv(x = tempcol, from = "latin1", to = "ASCII", sub = "")
-        # Remove carriage return
-        df[, colx] <- gsub("\\n", "", tempcol)
-      }
-    }
+    df <- df[, -16]
 
     return(tibble::as_tibble(df))
 
