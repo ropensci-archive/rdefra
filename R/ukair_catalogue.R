@@ -138,6 +138,19 @@ ukair_catalogue <- function(site_name = "",
 
     df <- utils::read.csv(catalogue_csv_link, stringsAsFactors = FALSE)
 
+    # Loop through character columns
+    for (colx in 1:dim(df)[2]){
+      if ("character" %in% class(df[, colx]) &
+          length(grep("[^ -~]", df[, colx])) > 0){
+        # Remove non-ASCII characters
+        tempcol <- as.character(df[, colx])
+        Encoding(tempcol) <- "latin1"
+        tempcol <- iconv(x = tempcol, from = "latin1", to = "ASCII", sub = "")
+        # Remove carriage return
+        df[, colx] <- gsub("\\n", "", tempcol)
+      }
+    }
+
     # remove trailing and leading white spaces
     df <- data.frame(apply(df, 2, function(x) trimws(x)),
                      stringsAsFactors = FALSE)
@@ -163,9 +176,6 @@ ukair_catalogue <- function(site_name = "",
     df[, "Latitude"] <- as.numeric(as.character(df[, "Latitude"]))
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
-
-    # Remove Site.Description column as it contains non-ASCII characters
-    df <- df[, -which(names(df) %in% c("Site.Description"))]
 
     return(tibble::as_tibble(df))
 

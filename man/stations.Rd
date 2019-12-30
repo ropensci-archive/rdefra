@@ -25,6 +25,7 @@ coordinates}
   \item{\code{Altitude..m.}}{Altitude in metres above sea level}
   \item{\code{Networks}}{Monitoring Networks}
   \item{\code{AURN.Pollutants.Measured}}{Pollutant measured}
+  \item{\code{Site.Description}}{Description of the site.}
   \item{\code{SiteID}}{Site ID, used to retrieve time series data.}
 }}
 \source{
