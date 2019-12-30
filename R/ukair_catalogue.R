@@ -169,11 +169,11 @@ ukair_catalogue <- function(site_name = "",
       if ("character" %in% class(df[, colx]) &
           length(grep("[^ -~]", df[, colx])) > 0){
         # Remove non-ASCII characters
-        Encoding(df[, colx]) <- "latin1"
-        df[, colx] <- iconv(x = df[, colx],
-                            from = "latin1", to = "ASCII", sub = "")
+        tempcol <- as.character(df[, colx])
+        Encoding(tempcol) <- "latin1"
+        tempcol <- iconv(x = tempcol, from = "latin1", to = "ASCII", sub = "")
         # Remove carriage return
-        df[, colx] <- gsub("\\n", "", df[, colx])
+        df[, colx] <- gsub("\\n", "", tempcol)
       }
     }
 
