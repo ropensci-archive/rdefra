@@ -70,10 +70,3 @@ There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, 
 * `closed` This is set to TRUE to include closed stations, FALSE otherwise.
 * `country_id` This is the identification number of the country, it can be an integer between 1 and 6. Default is 9999, which means all the countries.
 * `region_id` This is the identification number of the region. 1 = Aberdeen City, etc. (for the full list see https://uk-air.defra.gov.uk/). Default is 9999, which means all the local authorities.
-
-```{r catalogue_filter, eval = TRUE}
-stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
-stations_EnglandOzone
-```
-
-The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` stations in England in which ozone is measured.
