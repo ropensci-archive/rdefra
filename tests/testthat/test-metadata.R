@@ -32,11 +32,11 @@ test_that("DEFRA server should be running", {
 
 })
 
-test_that("Up-to-date metadata catalogue should have at least 6569 stations.", {
+test_that("Up-to-date metadata catalogue should have at least 6608 stations.", {
 
   x <- ukair_catalogue()
 
-  expect_that(dim(x)[1] >= 6600, equals(TRUE))
+  expect_true(all(dim(x) >= c(6608, 15)))
 
   closeAllConnections()
 

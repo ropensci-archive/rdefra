@@ -62,3 +62,166 @@ The list of monitoring stations can be downloaded using the function `ukair_cata
 stations <- ukair_catalogue()
 stations
 ```
+
+There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:
+
+  * `site_name` IDs of specific site (UK.AIR.ID). By default this is left blank to get info on all the available sites.
+  * `pollutant` This is an integer between 1 and 10. Default is 9999, which means all the pollutants.
+  * `group_id` This is the identification number of a group of stations. Default is 9999 which means all available networks.
+  * `closed` This is set to TRUE to include closed stations, FALSE otherwise.
+  * `country_id` This is the identification number of the country, it can be an integer between 1 and 6. Default is 9999, which means all the countries.
+  * `region_id` This is the identification number of the region. 1 = Aberdeen City, etc. (for the full list see https://uk-air.defra.gov.uk/). Default is 9999, which means all the local authorities.
+
+```{r catalogue_filter, eval = TRUE}
+stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
+stations_EnglandOzone
+```
+
+The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` stations in England in which ozone is measured.
+
+### Get missing coordinates
+
+Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing (coordinates in the British National Grid) from DEFRA's web pages, transform them to latitude and longitude and populate the missing coordinates as shown below.
+
+```{r get_coords, eval = TRUE}
+# How many stations have missing coordinates?
+length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
+
+# Scrape DEFRA website to get Easting/Northing (if available)
+stations <- ukair_get_coordinates(stations)
+
+# How many stations still have missing coordinates?
+length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
+```
+
+### Check hourly data availability
+
+Pollution data started to be collected in 1972 and consists of hourly concentration of various species (in micrograms/m<sup>3</sup>), such as ozone (O<sub>3</sub>), particulate matters (PM<sub>2.5</sub> and PM<sub>10</sub>), nitrogen dioxide (NO<sub>2</sub>), sulphur dioxide (SO<sub>2</sub>), and so on.
+
+The ID under which these data are available differs from the UK.AIR.ID. The catalogue does not contain this additional station ID (called SiteID hereafter) but DEFRA's web pages contain references to both the UK.AIR.ID and the SiteID. The function below uses as input the UK.AIR.ID and outputs the SiteID, if available. 
+
+```{r get_site_id, eval = FALSE}
+stations$SiteID <- ukair_get_site_id(stations$UK.AIR.ID)
+```
+
+Please note this function takes several minutes to run.
+
+### Cached catalogue
+
+For convenience, a cached version of the catalogue (last updated in December 2019) is included in the package and can be loaded using the following command:
+  
+```{r load_dataset_stations}
+data("stations")
+```
+
+The cached catalogue contains all the available siteIDs and coordinates and can be used offline as lookup table to find out the correspondence between the UK.AIR.ID and SiteID, as well as to investigate station characteristics.
+
+### Get hourly data
+
+Once the SiteID is known, time series for a given station can be retrieved in one line of code:
+  
+```{r get_hourly_data, eval = TRUE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:hdata}Hourly ozone data from London Marylebone Road monitoring station in 2015"}
+# Get 1 year of hourly ozone data from London Marylebone Road monitoring station
+df <- ukair_get_hourly_data("MY1", years = 2015)
+
+# Aggregate to daily means and plot
+# please note we use the zoo package here because time series could be irregular
+library("zoo")
+my1 <- zoo(x = df$Ozone, order.by = as.POSIXlt(df$datetime))
+
+daily_means <- aggregate(my1, as.Date(as.POSIXlt(df$datetime)), mean)
+
+plot(daily_means, main = "", xlab = "",
+     ylab = expression(paste("Ozone concentration [", mu, "g/", m^3, "]")))
+```
+
+The above figure \ref{fig:hdata} shows the highest concentrations happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.
+
+```{r ozone_data, eval = FALSE}
+# Get 15 years of hourly ozone data from the same monitoring station
+library("ggplot2")
+library("dplyr")
+library("lubridate")
+
+df <- ukair_get_hourly_data("MY1", years = 2000:2015)
+df <- mutate(df, 
+             year = year(datetime),
+             month = month(datetime),
+             year_month = strftime(datetime, "%Y-%m"))
+
+df %>%
+  group_by(month, year_month) %>%
+  summarize(ozone = mean(Ozone, na.rm=TRUE)) %>%
+  ggplot() +
+  geom_boxplot(aes(x = as.factor(month), y = ozone, group = month),
+               outlier.shape = NA) +
+  xlab("Month of the year") +
+  ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")")))
+```
+
+```{r ozone, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:ozone}15 years of hourly ozone data from London Marylebone Road monitoring station."}
+knitr::include_graphics("ozone.png")
+```
+
+The above box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
+
+## Applications
+
+### Plotting stations' locations 
+
+After scraping DEFRA's web pages, almost all the stations have valid coordinates. In the figure below, blue circles show all the stations with valid coordinates, while red circles show stations with available hourly data.
+
+```{r map_data, eval = FALSE}
+# Keep only station with coordinates
+stations_with_coords <- stations[complete.cases(stations[, c("Longitude",
+                                                             "Latitude")]), ]
+# Keep only station with known SiteID
+stations_with_SiteID <- which(!is.na(stations_with_coords$SiteID))
+
+library("leaflet")
+leaflet(data = stations_with_coords) %>% addTiles() %>% 
+  addCircleMarkers(lng = ~Longitude, 
+                   lat = ~Latitude,  
+                   popup = ~SiteID,
+                   radius = 1, color="blue", fill = FALSE) %>%
+  addCircleMarkers(lng = ~Longitude[stations_with_SiteID], 
+                   lat = ~Latitude[stations_with_SiteID], 
+                   radius = 0.5, color="red", 
+                   popup = ~SiteID[stations_with_SiteID])
+```
+
+```{r map, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:map}Blue circles show stations with valid coordinates, while red circles show stations with available hourly data."}
+knitr::include_graphics("map.png")
+```
+
+### Analyse the spatial distribution of the monitoring stations
+
+Below are two plots showing the spatial distribution of the monitoring stations. These are concentrated largely in urban areas and mostly estimate the background level of concentration of pollutants.
+
+```{r dotchart1, eval = TRUE, fig.width = 7, fig.height = 10, fig.cap = "\\label{fig:dotchart1}Spatial distribution of the monitoring stations across zones."}
+# Zone
+dotchart(as.matrix(table(stations$Zone))[,1])
+```
+
+```{r dotchart2, eval = TRUE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:dotchart2}Spatial distribution of the monitoring stations across environment types."}
+# Environment.Type
+dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != "Unknown Unknown"]))[,1])
+```
+
+### Use multiple cores to speed up data retrieval from numerous sites
+
+The acquisition of data from hundreds of sites takes only few minutes:
+
+```{r parallel_example, eval = FALSE}
+library("parallel")
+ 
+# Use detectCores() to find out many cores are available on your machine
+cl <- makeCluster(getOption("cl.cores", detectCores()))
+
+system.time(myList <- parLapply(cl, stations$SiteID[stations_with_SiteID], 
+                                ukair_get_hourly_data, years=1999:2016))
+
+stopCluster(cl)
+
+df <- bind_rows(myList)
+```

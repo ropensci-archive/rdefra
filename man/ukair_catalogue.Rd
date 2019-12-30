@@ -28,7 +28,7 @@ Aberdeen City, etc. (for the full list see
 local authorities.}
 }
 \value{
-A named vector containing Easting and Northing coordinates.
+A dataframe listing stations and related information.
 }
 \description{
 This function fetches the catalogue of monitoring stations from

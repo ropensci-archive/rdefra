@@ -76,7 +76,7 @@
 #'  \item{6 = Channel Islands}
 #'  }
 #'
-#' @return A named vector containing Easting and Northing coordinates.
+#' @return A dataframe listing stations and related information.
 #'
 #' @export
 #'
@@ -164,7 +164,8 @@ ukair_catalogue <- function(site_name = "",
     df[, "Longitude"] <- as.numeric(as.character(df[, "Longitude"]))
     df[, "Altitude..m."] <- as.numeric(as.character(df[, "Altitude..m."]))
 
-    df <- df[, -16]
+    # Remove Site.Description column as it contains non-ASCII characters
+    df <- df[, -which(names(df) %in% c("Site.Description"))]
 
     return(tibble::as_tibble(df))
 
