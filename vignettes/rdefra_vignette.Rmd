@@ -52,21 +52,7 @@ The package logic assumes that users access the UK-AIR database in two steps:
 1. Browse the catalogue of available stations and selects some stations of interest.
 2. Retrieves data for the selected stations.
 
-### Get stations catalogue
-
-The list of monitoring stations can be downloaded using the function `ukair_catalogue()` with no input parameters, as in the example below. 
-
 ```{r catalogue_full, eval = TRUE}
 # Get full catalogue
 stations <- ukair_catalogue()
-stations
 ```
-
-There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:
-
-* `site_name` IDs of specific site (UK.AIR.ID). By default this is left blank to get info on all the available sites.
-* `pollutant` This is an integer between 1 and 10. Default is 9999, which means all the pollutants.
-* `group_id` This is the identification number of a group of stations. Default is 9999 which means all available networks.
-* `closed` This is set to TRUE to include closed stations, FALSE otherwise.
-* `country_id` This is the identification number of the country, it can be an integer between 1 and 6. Default is 9999, which means all the countries.
-* `region_id` This is the identification number of the region. 1 = Aberdeen City, etc. (for the full list see https://uk-air.defra.gov.uk/). Default is 9999, which means all the local authorities.
