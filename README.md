@@ -1,6 +1,3 @@
-
-<!-- Edit the README.Rmd only!!! The README.md is generated automatically from README.Rmd. -->
-
 # rdefra: Interact with the UK AIR Pollution Database from DEFRA
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.593187.svg)](https://doi.org/10.5281/zenodo.593187)
@@ -51,28 +48,7 @@ provides UK-AIR latest measured levels (see
 <https://uk-air.defra.gov.uk/latest/currentlevels>) as well as data from
 other countries.
 
-## Dependencies & Installation
-
-### Dependencies
-
-The rdefra package depends on two things:
-
-  - The Geospatial Data Abstraction Library (GDAL).
-
-  - Some additional CRAN packages. Check for missing dependencies and
-    install them using the commands
-below:
-
-<!-- end list -->
-
-``` r
-packs <- c("httr", "xml2", "lubridate", "tibble", "dplyr", "sp", "devtools",
-           "leaflet", "zoo", "testthat", "knitr", "Rmarkdown")
-new.packages <- packs[!(packs %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-```
-
-### Installation
+## Installation
 
 Get the released version from CRAN:
 
@@ -80,10 +56,10 @@ Get the released version from CRAN:
 install.packages("rdefra")
 ```
 
-Or the development version from github using
-[remotes](https://github.com/r-lib/remotes):
+Or the development version from GitHub using the package `remotes`:
 
 ``` r
+install.packages("remotes")
 remotes::install_github("ropensci/rdefra")
 ```
 
