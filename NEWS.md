@@ -1,3 +1,12 @@
+rdefra 0.3.7
+==============
+
+## BUG FIXES
+* Updated tests to be compatible with PROJ6 [#9](https://github.com/ropensci/rdefra/issues/9)
+
+## MINOR CHANGES
+* Removed obsolete packages in 'Suggests'
+
 rdefra 0.3.6
 ==============
 

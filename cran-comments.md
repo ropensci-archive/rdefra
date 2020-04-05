@@ -5,14 +5,13 @@ This is a resubmission due to bug fixing.
 ## Release Summary
 
 ## BUG FIXES
-* SiteID = NA causes hanging errors [#6](https://github.com/ropensci/rdefra/issues/6)
-* Different variables for ukair_get_coordinates() when inputs are fed in differently [#7](https://github.com/ropensci/rdefra/issues/7)
+* Updated tests to be compatible with PROJ6 [#9](https://github.com/ropensci/rdefra/issues/9)
 
 ## MINOR CHANGES
-* function ukair_get_coords back to original name ukair_get_coordinates
+* Removed obsolete packages in 'Suggests'
 
 ## Test environment
-* Ubuntu 18.04, R 3.3.1
+* Ubuntu 18.04, R 3.6.3
 
 ## R CMD check results
 
