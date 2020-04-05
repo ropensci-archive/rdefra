@@ -82,13 +82,11 @@ fllowing steps:
 
 For an in-depth description of the various functionalities andexample
 applications, please refer to the package
-[vignette](vignettes/rdefra_vignette.md).
+[vignette](vignettes/rdefra_vignette.Rmd).
 
 ## Meta
 
-  - Please note that this project is released with a [Contributor Code
-    of Conduct](CONDUCT.md). By participating in this project you agree
-    to abide by its terms.
+  - This package and functions herein are part of an experimental open-source project. They are provided as is, without any guarantee.
   - Please [report any issues or
     bugs](https://github.com/ropensci/rdefra/issues).
   - License: [GPL-3](https://opensource.org/licenses/GPL-3.0)

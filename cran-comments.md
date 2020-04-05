@@ -9,6 +9,8 @@ This is a resubmission due to bug fixing.
 
 ## MINOR CHANGES
 * Removed obsolete packages in 'Suggests'
+* Fixed invalid URIs
+* The following directory looks like a leftover from knitr
 
 ## Test environment
 * Ubuntu 18.04, R 3.6.3

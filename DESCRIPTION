@@ -1,6 +1,6 @@
 Package: rdefra
 Title: Interact with the UK AIR Pollution Database from DEFRA
-Version: 0.3.7
+Version: 0.3.8
 Authors@R: c(person(given = "Claudia",
                     family = "Vitolo",
                     role = c("aut", "cre"),

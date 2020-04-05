@@ -1,4 +1,4 @@
-rdefra 0.3.7
+rdefra 0.3.8
 ==============
 
 ## BUG FIXES
@@ -6,6 +6,8 @@ rdefra 0.3.7
 
 ## MINOR CHANGES
 * Removed obsolete packages in 'Suggests'
+* Fixed invalid URIs
+* The following directory looks like a leftover from knitr
 
 rdefra 0.3.6
 ==============

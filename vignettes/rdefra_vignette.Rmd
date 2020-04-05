@@ -5,8 +5,8 @@ date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{rdefra}
-  %\VignetteEngine{knitr::knitr}
-  %\usepackage[UTF-8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
   
 ```{r setup, echo = FALSE}
@@ -138,7 +138,7 @@ plot(daily_means, main = "", xlab = "",
 
 The above figure \ref{fig:hdata} shows the highest concentrations happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.
 
-```{r ozone_data, eval = FALSE}
+```{r ozone_data, eval = TRUE}
 # Get 15 years of hourly ozone data from the same monitoring station
 library("ggplot2")
 library("dplyr")
@@ -157,11 +157,8 @@ df %>%
   geom_boxplot(aes(x = as.factor(month), y = ozone, group = month),
                outlier.shape = NA) +
   xlab("Month of the year") +
-  ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")")))
-```
-
-```{r ozone, echo = FALSE, eval = TRUE, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:ozone}15 years of hourly ozone data from London Marylebone Road monitoring station."}
-knitr::include_graphics("ozone.png")
+  ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")"))) +
+  ggtitle("15 years of hourly ozone data from London Marylebone Road monitoring station")
 ```
 
 The above box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
@@ -172,13 +169,14 @@ The above box plots show that the highest concentrations usually occurr during A
 
 After scraping DEFRA's web pages, almost all the stations have valid coordinates. In the figure below, blue circles show all the stations with valid coordinates, while red circles show stations with available hourly data.
 
-```{r map_data, eval = FALSE}
+```{r map_data, eval = TRUE}
 # Keep only station with coordinates
 stations_with_coords <- stations[complete.cases(stations[, c("Longitude",
                                                              "Latitude")]), ]
 # Keep only station with known SiteID
 stations_with_SiteID <- which(!is.na(stations_with_coords$SiteID))
 
+# Blue circles show stations with valid coordinates, while red circles show stations with available hourly data.
 library("leaflet")
 leaflet(data = stations_with_coords) %>% addTiles() %>% 
   addCircleMarkers(lng = ~Longitude, 
@@ -189,10 +187,6 @@ leaflet(data = stations_with_coords) %>% addTiles() %>%
                    lat = ~Latitude[stations_with_SiteID], 
                    radius = 0.5, color="red", 
                    popup = ~SiteID[stations_with_SiteID])
-```
-
-```{r map, echo = FALSE, eval = TRUE, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:map}Blue circles show stations with valid coordinates, while red circles show stations with available hourly data."}
-knitr::include_graphics("map.png")
 ```
 
 ### Analyse the spatial distribution of the monitoring stations

@@ -1,18 +1,11 @@
-^README\.Rmd$
-^CONDUCT\.md$
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^appveyor\.yml$
 ^\.travis\.yml$
 
-cache$
-assets
 cran-comments.md
-preparePackage.R
-reviewJOSS.md
-reviewROPENSCI.md
 inst/extdata
 inst/paper
-BugFixing.R
 _pkgdown.yml
-^docs$
+vignettes/rdefra_vignette.R
+vignettes/rdefra_vignette.html
