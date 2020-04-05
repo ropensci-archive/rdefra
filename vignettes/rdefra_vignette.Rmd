@@ -160,7 +160,7 @@ df %>%
   ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")")))
 ```
 
-```{r ozone, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:ozone}15 years of hourly ozone data from London Marylebone Road monitoring station."}
+```{r ozone, echo = FALSE, eval = TRUE, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:ozone}15 years of hourly ozone data from London Marylebone Road monitoring station."}
 knitr::include_graphics("ozone.png")
 ```
 
@@ -191,7 +191,7 @@ leaflet(data = stations_with_coords) %>% addTiles() %>%
                    popup = ~SiteID[stations_with_SiteID])
 ```
 
-```{r map, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:map}Blue circles show stations with valid coordinates, while red circles show stations with available hourly data."}
+```{r map, echo = FALSE, eval = TRUE, fig.width = 7, out.width = "600px", fig.cap = "\\label{fig:map}Blue circles show stations with valid coordinates, while red circles show stations with available hourly data."}
 knitr::include_graphics("map.png")
 ```
 

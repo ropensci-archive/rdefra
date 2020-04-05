@@ -16,7 +16,7 @@ BugReports: https://github.com/ropensci/rdefra/issues
 Description: Get data from DEFRA's UK-AIR website <https://uk-air.defra.gov.uk/>. It basically scrapes the HTML content.
 Depends: R (>= 2.10)
 Imports: lubridate, tibble, httr, xml2, dplyr, sp, rgdal
-Suggests: testthat, leaflet, parallel, rmarkdown, knitr, ggplot2, zoo
+Suggests: testthat, rmarkdown, knitr, ggplot2, zoo
 SystemRequirements: GDAL
 VignetteBuilder: knitr
 LazyData: true
