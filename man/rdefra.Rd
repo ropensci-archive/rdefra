@@ -3,7 +3,6 @@
 \docType{package}
 \name{rdefra}
 \alias{rdefra}
-\alias{rdefra-package}
 \title{rdefra: Interact with the UK AIR Pollution Database from DEFRA}
 \description{
 The R package rdefra allows to retrieve air pollution data from the Air

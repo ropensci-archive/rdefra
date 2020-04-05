@@ -4,8 +4,14 @@
 \alias{ukair_catalogue}
 \title{Get DEFRA UK-AIR stations metadata}
 \usage{
-ukair_catalogue(site_name = "", pollutant = 9999, group_id = 9999,
-  closed = "true", country_id = 9999, region_id = 9999)
+ukair_catalogue(
+  site_name = "",
+  pollutant = 9999,
+  group_id = 9999,
+  closed = "true",
+  country_id = 9999,
+  region_id = 9999
+)
 }
 \arguments{
 \item{site_name}{This is the name of a specific site. By default this is left

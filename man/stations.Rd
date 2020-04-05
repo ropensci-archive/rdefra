@@ -5,7 +5,8 @@
 \alias{stations}
 \title{List of all the DEFRA air quality monitoring stations with complete
 coordinates}
-\format{A data frame with 6561 observations on the following 14 variables.
+\format{
+A data frame with 6561 observations on the following 14 variables.
 \describe{
   \item{\code{UK.AIR.ID}}{ID reference for monitoring stations}
   \item{\code{EU.Site.ID}}{EU.Site.ID}
@@ -27,7 +28,8 @@ coordinates}
   \item{\code{AURN.Pollutants.Measured}}{Pollutant measured}
   \item{\code{Site.Description}}{Description of the site.}
   \item{\code{SiteID}}{Site ID, used to retrieve time series data.}
-}}
+}
+}
 \source{
 \url{http://uk-air.defra.gov.uk/}
 }

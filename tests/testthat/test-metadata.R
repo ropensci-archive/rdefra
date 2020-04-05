@@ -63,8 +63,8 @@ test_that("Find easting and northing coordinates of site UKA12536.", {
 
   expect_that(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
                                 "Latitude", "Longitude")), equals(TRUE))
-  expect_that(x$Longitude == -0.416786, equals(TRUE))
-  expect_that(x$Latitude == 51.704266, equals(TRUE))
+  expect_that(round(x$Longitude, 1) == -0.4, equals(TRUE))
+  expect_that(round(x$Latitude, 1) == 51.7, equals(TRUE))
 
   closeAllConnections()
 
@@ -78,8 +78,8 @@ test_that("Find easting and northing coordinates of site UKA15910.", {
 
   expect_that(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
                                   "Latitude", "Longitude")), equals(TRUE))
-  expect_that(x$Longitude == -0.743709, equals(TRUE))
-  expect_that(x$Latitude == 51.322247, equals(TRUE))
+  expect_that(round(x$Longitude, 1) == -0.7, equals(TRUE))
+  expect_that(round(x$Latitude, 1) == 51.3, equals(TRUE))
 
   closeAllConnections()
 
@@ -92,11 +92,9 @@ test_that("Find easting and northing coordinates of multiple sites.", {
 
   expect_that(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
                                   "Latitude", "Longitude")), equals(TRUE))
-  expect_that(all(x$Longitude == c(-0.743709, -0.63089,
-                                   -0.727552, 0.272107)),
+  expect_that(all(round(x$Longitude, 1) == c(-0.7, -0.6, -0.7, 0.3)),
               equals(TRUE))
-  expect_that(all(x$Latitude == c(51.322247, 51.320938,
-                                  51.329932, 51.192638)),
+  expect_that(all(round(x$Latitude, 1) == c(51.3, 51.3, 51.3, 51.2)),
               equals(TRUE))
 
   closeAllConnections()
@@ -119,10 +117,10 @@ test_that("Infill missing coordinates from data frame.", {
                         row.names = c(NA, -10L),
                         class = c("tbl_df", "tbl", "data.frame"))
   x <- ukair_get_coordinates(stations)
-  expect_equal(round(x$Latitude[which(is.na(stations$Latitude))], 3),
-               c(51.704, 51.695, 51.648))
-  expect_equal(round(x$Longitude[which(is.na(stations$Longitude))], 3),
-               c(-0.417, -3.225, -3.135))
+  expect_equal(round(x$Latitude[which(is.na(stations$Latitude))], 1),
+               c(51.7, 51.7, 51.6))
+  expect_equal(round(x$Longitude[which(is.na(stations$Longitude))], 1),
+               c(-0.4, -3.2, -3.1))
 
   closeAllConnections()
 
