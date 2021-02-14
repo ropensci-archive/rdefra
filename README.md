@@ -3,8 +3,7 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.593187.svg)](https://doi.org/10.5281/zenodo.593187)
 [![status](http://joss.theoj.org/papers/57058f6e8a511f3bb0667ef7687cc87d/status.svg)](http://joss.theoj.org/papers/57058f6e8a511f3bb0667ef7687cc87d)
 
-[![Travis-CI Build
-Status](https://travis-ci.org/ropensci/rdefra.svg?branch=master)](https://travis-ci.org/ropensci/rdefra)
+[![R-CMD-check](https://github.com/ropensci/rdefra/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rdefra/actions)
 [![codecov.io](https://codecov.io/gh/ropensci/rdefra/coverage.svg?branch=master)](https://codecov.io/gh/ropensci/rdefra?branch=master)
 
 [![CRAN Status
@@ -82,7 +81,7 @@ fllowing steps:
 
 For an in-depth description of the various functionalities andexample
 applications, please refer to the package
-[vignette](vignettes/rdefra_vignette.Rmd).
+[vignette](https://github.com/ropensci/rdefra/blob/master/vignettes/rdefra_vignette.Rmd).
 
 ## Meta
 
@@ -96,8 +95,7 @@ applications, please refer to the package
     review [here](https://github.com/ropensci/onboarding/issues/68)) and
     the Journal of Open Source Software (see review
     [here](https://github.com/openjournals/joss-reviews/issues/51)).
-  - Get citation information for `rdefra` in R doing `citation(package =
-    "rdefra")`
+  - Cite `rdefra`: `citation(package = "rdefra")`
 
 <br/>
 
