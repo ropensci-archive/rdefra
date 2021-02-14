@@ -8,9 +8,7 @@ test_that("Hourly data for station ABD/2014 should be available", {
   rootURL <- "https://uk-air.defra.gov.uk/data_files/site_data/"
   myURL <- paste(rootURL, site_id, "_", years, ".csv", sep = "")
 
-  expect_that(httr::http_error(myURL), equals(FALSE))
-
-  closeAllConnections()
+  expect_equal(httr::http_error(myURL), FALSE)
 
 })
 
@@ -24,10 +22,8 @@ test_that("Hourly data for station BTR3 should be available", {
 
   con.url <- try(url(myURL[[1]]))
 
-  expect_that(inherits(con.url, "try-error"), equals(FALSE))
-  expect_that(length(myURL), equals(5))
-
-  closeAllConnections()
+  expect_equal(inherits(con.url, "try-error"), FALSE)
+  expect_equal(length(myURL), 5)
 
 })
 
@@ -40,8 +36,8 @@ test_that("Metadata should be in the right format", {
 
   y <- attributes(x)$units
 
-  expect_that("data.frame" %in% class(y), equals(TRUE))
-  expect_that(all(names(y) == c("variable", "unit", "year")), equals(TRUE))
+  expect_true("data.frame" %in% class(y))
+  expect_true(all(names(y) == c("variable", "unit", "year")))
 
 })
 
@@ -52,9 +48,7 @@ test_that("Data should be in the right format", {
 
   x <- ukair_get_hourly_data(site_id, years)
 
-  expect_that(all(names(x)[1:2] == c("datetime", "SiteID")), equals(TRUE))
-
-  closeAllConnections()
+  expect_true(all(names(x)[1:2] == c("datetime", "SiteID")))
 
 })
 
@@ -75,7 +69,5 @@ test_that("Try and retrieve hourly data", {
   expect_equal(x$PM.sub.2.5..sub..particulate.matter..Hourly.measured.[1], 9.2)
   expect_equal(x$Volatile.PM.sub.10..sub...Hourly.measured.[1], 1)
   expect_equal(x$Volatile.PM.sub.2.5..sub...Hourly.measured.[1], 1.9)
-
-  closeAllConnections()
 
 })
