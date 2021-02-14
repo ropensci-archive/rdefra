@@ -87,14 +87,15 @@ Locating a station is extremely important to be able to carry out any spatial an
 ```{r get_coords1, eval = TRUE}
 # How many stations have missing coordinates?
 length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
-
-# Scrape DEFRA website to get Easting/Northing (if available)
-stations <- ukair_get_coordinates(stations)
 ```
 
-```{r get_coords2, eval = TRUE}
+```{r get_coords2, eval = FALSE}
+# Scrape DEFRA website to get Easting/Northing (if available)
+stations <- ukair_get_coordinates(stations)
+
 # How many stations still have missing coordinates?
 length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
+#> [1] 2
 ```
 
 ### Check hourly data availability
@@ -112,7 +113,7 @@ Please note this function takes several minutes to run.
 ### Cached catalogue
 
 For convenience, a cached version of the catalogue (last updated in December 2019) is included in the package and can be loaded using the following command:
-  
+
 ```{r load_dataset_stations}
 data("stations")
 ```
@@ -211,7 +212,7 @@ The acquisition of data from hundreds of sites takes only few minutes:
 
 ```{r parallel_example, eval = FALSE}
 library("parallel")
- 
+
 # Use detectCores() to find out many cores are available on your machine
 cl <- makeCluster(getOption("cl.cores", detectCores()))
 
