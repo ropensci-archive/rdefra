@@ -1,32 +1,5 @@
 context("Data")
 
-test_that("Hourly data for station ABD/2014 should be available", {
-
-  site_id <- "ABD"
-  years <- 2014
-
-  rootURL <- "https://uk-air.defra.gov.uk/data_files/site_data/"
-  myURL <- paste(rootURL, site_id, "_", years, ".csv", sep = "")
-
-  expect_equal(httr::http_error(myURL), FALSE)
-
-})
-
-test_that("Hourly data for station BTR3 should be available", {
-
-  site_id <- "BTR3"
-  years <- 2012:2016
-
-  rootURL <- "https://uk-air.defra.gov.uk/data_files/site_data/"
-  myURL <- paste(rootURL, site_id, "_", years, ".csv", sep = "")
-
-  con.url <- try(url(myURL[[1]]))
-
-  expect_equal(inherits(con.url, "try-error"), FALSE)
-  expect_equal(length(myURL), 5)
-
-})
-
 test_that("Metadata should be in the right format", {
 
   site_id <- "ABD"

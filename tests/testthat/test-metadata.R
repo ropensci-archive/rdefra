@@ -1,38 +1,6 @@
 context("Metadata")
 
-test_that("DEFRA server should be running", {
-
-  site_name <- ""
-  pollutant <- 9999
-  group_id <- 9999
-  closed <- "true"
-  country_id <- 9999
-  region_id <- 9999
-  location_type <- 9999
-
-  catalogue_fetch <- httr::GET(url = "http://uk-air.defra.gov.uk",
-                               path = "networks/find-sites",
-                               query = list(site_name = site_name,
-                                            pollutant = pollutant,
-                                            group_id = group_id,
-                                            closed = closed,
-                                            country_id = country_id,
-                                            region_id = region_id,
-                                            location_type = location_type,
-                                            search = "Search+Network",
-                                            view = "advanced",
-                                            action = "results"))
-
-  # URL: catalogue_fetch[[1]]
-
-  # download html
-  expect_equal(httr::http_error(catalogue_fetch), FALSE)
-
-  closeAllConnections()
-
-})
-
-test_that("Up-to-date metadata catalogue should have at least 6610 stations.", {
+test_that("Catalogue should be a data.frame.", {
 
   x <- ukair_catalogue()
 
