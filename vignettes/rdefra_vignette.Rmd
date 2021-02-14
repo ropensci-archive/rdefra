@@ -138,7 +138,9 @@ plot(daily_means, main = "", xlab = "",
 
 The above figure \ref{fig:hdata} shows the highest concentrations happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.
 
-```{r ozone_data, eval = TRUE}
+The code below explores the distribution of ozone by month. The resulting box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
+
+```{r ozone_data, eval = FALSE}
 # Get 15 years of hourly ozone data from the same monitoring station
 library("ggplot2")
 library("dplyr")
@@ -161,22 +163,20 @@ df %>%
   ggtitle("15 years of hourly ozone data from London Marylebone Road monitoring station")
 ```
 
-The above box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
-
 ## Applications
 
 ### Plotting stations' locations 
 
-After scraping DEFRA's web pages, almost all the stations have valid coordinates. In the figure below, blue circles show all the stations with valid coordinates, while red circles show stations with available hourly data.
+After scraping DEFRA's web pages, almost all the stations have valid coordinates. You can create an interactive map using leaflet. The code below generates a map where blue circles are all the stations with valid coordinates, while red circles show locations with available hourly data.
 
-```{r map_data, eval = TRUE}
+```{r map_data, eval = FALSE}
 # Keep only station with coordinates
 stations_with_coords <- stations[complete.cases(stations[, c("Longitude",
                                                              "Latitude")]), ]
 # Keep only station with known SiteID
 stations_with_SiteID <- which(!is.na(stations_with_coords$SiteID))
 
-# Blue circles show stations with valid coordinates, while red circles show stations with available hourly data.
+# An interactive map
 library("leaflet")
 leaflet(data = stations_with_coords) %>% addTiles() %>% 
   addCircleMarkers(lng = ~Longitude, 

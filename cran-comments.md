@@ -12,6 +12,9 @@ This is a resubmission due to bug fixing.
 * Fixed invalid URIs
 * The following directory looks like a leftover from knitr
 
+## NOTES
+Please note DEFRA and DEFRA's are not mispelled words.
+
 ## Test environment
 * Ubuntu 18.04, R 3.6.3
 

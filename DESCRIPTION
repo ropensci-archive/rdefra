@@ -23,4 +23,4 @@ LazyData: true
 Encoding: UTF-8
 License: GPL-3
 Repository: CRAN
-RoxygenNote: 7.1.0
+RoxygenNote: 7.1.1

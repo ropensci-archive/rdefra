@@ -1,6 +1,10 @@
 rdefra 0.3.8
 ==============
 
+This release corresponds to the latest CRAN submission.
+
+This is a resubmission due to bug fixing.
+
 ## BUG FIXES
 * Updated tests to be compatible with PROJ6 [#9](https://github.com/ropensci/rdefra/issues/9)
 

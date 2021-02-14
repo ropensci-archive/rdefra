@@ -1,11 +1,7 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
-^appveyor\.yml$
-^\.travis\.yml$
-
 cran-comments.md
 inst/extdata
 inst/paper
 _pkgdown.yml
-vignettes/rdefra_vignette.R
-vignettes/rdefra_vignette.html
+^\.github$
