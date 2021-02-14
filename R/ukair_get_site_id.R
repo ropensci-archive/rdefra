@@ -43,7 +43,7 @@ ukair_get_site_id_internal <- function(uka_id){
                                        action = "site"))
 
   # download content
-  page_content <- httr::content(page_fetch)
+  page_content <- httr::content(page_fetch, encoding = "UTF-8")
 
   # Extract tab row containing Easting and Northing
   page_tab <- xml2::xml_find_all(page_content, '//*[@id="g4"]/td[4]/a[4]')

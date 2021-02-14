@@ -84,13 +84,15 @@ The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` st
 
 Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing (coordinates in the British National Grid) from DEFRA web pages, transform them to latitude and longitude and populate the missing coordinates as shown below.
 
-```{r get_coords, eval = TRUE}
+```{r get_coords1, eval = TRUE}
 # How many stations have missing coordinates?
 length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
 
 # Scrape DEFRA website to get Easting/Northing (if available)
 stations <- ukair_get_coordinates(stations)
+```
 
+```{r get_coords2, eval = TRUE}
 # How many stations still have missing coordinates?
 length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
 ```

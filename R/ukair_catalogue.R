@@ -127,7 +127,7 @@ ukair_catalogue <- function(site_name = "",
                                             action = "results"))
 
   # download content
-  catalogue_content <- httr::content(catalogue_fetch)
+  catalogue_content <- httr::content(catalogue_fetch, encoding = "UTF-8")
 
   # Extract csv link
   catalogue_csv_link <- xml2::xml_find_first(catalogue_content,

@@ -100,7 +100,7 @@ ukair_get_coordinates_internal <- function(uka_id){
                           query = list(uka_id = uka_id))
 
   # download content
-  page_content <- httr::content(page_fetch)
+  page_content <- httr::content(page_fetch, encoding = "UTF-8")
 
   # Extract tab row containing Easting and Northing
   page_tab <- xml2::xml_find_all(page_content,
