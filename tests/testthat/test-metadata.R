@@ -36,8 +36,7 @@ test_that("Up-to-date metadata catalogue should have at least 6610 stations.", {
 
   x <- ukair_catalogue()
 
-  expect_true(dim(x)[1] >= 6610)
-  expect_true(dim(x)[2] >= 16)
+  expect_true("data.frame" %in% class(x))
 
   closeAllConnections()
 
