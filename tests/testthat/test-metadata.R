@@ -28,6 +28,8 @@ test_that("DEFRA server should be running", {
   # download html
   expect_equal(httr::http_error(catalogue_fetch), FALSE)
 
+  closeAllConnections()
+
 })
 
 test_that("Up-to-date metadata catalogue should have at least 6610 stations.", {
@@ -36,6 +38,8 @@ test_that("Up-to-date metadata catalogue should have at least 6610 stations.", {
 
   expect_true(dim(x)[1] >= 6610)
   expect_true(dim(x)[2] >= 16)
+
+  closeAllConnections()
 
 })
 
