@@ -175,9 +175,9 @@
 <span class="co">#&gt; [1] 2763</span>
 
 <span class="co"># Scrape DEFRA website to get Easting/Northing (if available)</span>
-<span class="va">stations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_get_coordinates.html">ukair_get_coordinates</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span>
-
-<span class="co"># How many stations still have missing coordinates?</span>
+<span class="va">stations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_get_coordinates.html">ukair_get_coordinates</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span class="co"># How many stations still have missing coordinates?</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Latitude</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Longitude</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
 <span class="co">#&gt; [1] 2</span></code></pre></div>
 </div>
@@ -186,7 +186,7 @@
 <a href="#check-hourly-data-availability" class="anchor"></a>Check hourly data availability</h3>
 <p>Pollution data started to be collected in 1972 and consists of hourly concentration of various species (in micrograms/m<sup>3</sup>), such as ozone (O<sub>3</sub>), particulate matters (PM<sub>2.5</sub> and PM<sub>10</sub>), nitrogen dioxide (NO<sub>2</sub>), sulphur dioxide (SO<sub>2</sub>), and so on.</p>
 <p>The ID under which these data are available differs from the UK.AIR.ID. The catalogue does not contain this additional station ID (called SiteID hereafter) but DEFRA’s web pages contain references to both the UK.AIR.ID and the SiteID. The function below uses as input the UK.AIR.ID and outputs the SiteID, if available.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">stations</span><span class="op">$</span><span class="va">SiteID</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_get_site_id.html">ukair_get_site_id</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">UK.AIR.ID</span><span class="op">)</span></code></pre></div>
 <p>Please note this function takes several minutes to run.</p>
 </div>
@@ -194,7 +194,7 @@
 <h3 class="hasAnchor">
 <a href="#cached-catalogue" class="anchor"></a>Cached catalogue</h3>
 <p>For convenience, a cached version of the catalogue (last updated in December 2019) is included in the package and can be loaded using the following command:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">"stations"</span><span class="op">)</span></code></pre></div>
 <p>The cached catalogue contains all the available siteIDs and coordinates and can be used offline as lookup table to find out the correspondence between the UK.AIR.ID and SiteID, as well as to investigate station characteristics.</p>
 </div>
@@ -202,7 +202,7 @@
 <h3 class="hasAnchor">
 <a href="#get-hourly-data" class="anchor"></a>Get hourly data</h3>
 <p>Once the SiteID is known, time series for a given station can be retrieved in one line of code:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get 1 year of hourly ozone data from London Marylebone Road monitoring station</span>
 <span class="va">df</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_get_hourly_data.html">ukair_get_hourly_data</a></span><span class="op">(</span><span class="st">"MY1"</span>, years <span class="op">=</span> <span class="fl">2015</span><span class="op">)</span>
 
@@ -222,7 +222,7 @@ Hourly ozone data from London Marylebone Road monitoring station in 2015
 </div>
 <p>The above figure  shows the highest concentrations happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.</p>
 <p>The code below explores the distribution of ozone by month. The resulting box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Get 15 years of hourly ozone data from the same monitoring station</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://ggplot2.tidyverse.org">"ggplot2"</a></span><span class="op">)</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st"><a href="https://dplyr.tidyverse.org">"dplyr"</a></span><span class="op">)</span>
@@ -252,7 +252,7 @@ Hourly ozone data from London Marylebone Road monitoring station in 2015
 <h3 class="hasAnchor">
 <a href="#plotting-stations-locations" class="anchor"></a>Plotting stations’ locations</h3>
 <p>After scraping DEFRA’s web pages, almost all the stations have valid coordinates. You can create an interactive map using leaflet. The code below generates a map where blue circles are all the stations with valid coordinates, while red circles show locations with available hourly data.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Keep only station with coordinates</span>
 <span class="va">stations_with_coords</span> <span class="op">&lt;-</span> <span class="va">stations</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html">complete.cases</a></span><span class="op">(</span><span class="va">stations</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Longitude"</span>,
                                                              <span class="st">"Latitude"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span>, <span class="op">]</span>
@@ -275,7 +275,7 @@ Hourly ozone data from London Marylebone Road monitoring station in 2015
 <h3 class="hasAnchor">
 <a href="#analyse-the-spatial-distribution-of-the-monitoring-stations" class="anchor"></a>Analyse the spatial distribution of the monitoring stations</h3>
 <p>Below are two plots showing the spatial distribution of the monitoring stations. These are concentrated largely in urban areas and mostly estimate the background level of concentration of pollutants.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Zone</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Zone</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
@@ -283,7 +283,7 @@ Hourly ozone data from London Marylebone Road monitoring station in 2015
 Spatial distribution of the monitoring stations across zones.
 </p>
 </div>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Environment.Type</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Environment.Type</span><span class="op">[</span><span class="va">stations</span><span class="op">$</span><span class="va">Environment.Type</span> <span class="op">!=</span> <span class="st">"Unknown Unknown"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
@@ -296,7 +296,7 @@ Spatial distribution of the monitoring stations across environment types.
 <h3 class="hasAnchor">
 <a href="#use-multiple-cores-to-speed-up-data-retrieval-from-numerous-sites" class="anchor"></a>Use multiple cores to speed up data retrieval from numerous sites</h3>
 <p>The acquisition of data from hundreds of sites takes only few minutes:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="st">"parallel"</span><span class="op">)</span>
  
 <span class="co"># Use detectCores() to find out many cores are available on your machine</span>
