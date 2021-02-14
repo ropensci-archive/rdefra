@@ -65,12 +65,6 @@ test_that("Try and retrieve hourly data", {
   x <- ukair_get_hourly_data(site_id = "ABD", years = "2014")
 
   expect_true(dim(x)[1] >= 8760)
-
-  expect_equal(dput(x$datetime[1]),
-               structure(1388538000, class = c("POSIXct", "POSIXt"),
-                         tzone = "UTC"))
-  expect_equal(dput(x$SiteID[1]),
-               structure(1L, .Label = "ABD", class = "factor"))
   expect_equal(x$PM.sub.10..sub..particulate.matter..Hourly.measured.[1], 16.1)
   expect_equal(x$Nitric.oxide[1], 1.6402)
   expect_equal(x$Nitrogen.dioxide[1], 11.28311)
