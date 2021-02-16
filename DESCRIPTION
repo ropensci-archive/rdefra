@@ -6,14 +6,28 @@ Authors@R: c(person(given = "Claudia",
                     role = c("aut", "cre"),
                     email = "cvitolodev@gmail.com",
                     comment = c(ORCID = "0000-0002-4252-1176")),
-             person("Andrew", "Russell", role = c("ctb"), comment = "This package is part of the KEHRA project and Andrew supervised the technical/software development."),
-             person("Allan", "Tucker", role = c("ctb"), comment = "This package is part of the KEHRA project and Allan supervised the technical/software development."),
-             person("Maëlle", "Salmon", role = c("ctb"), comment = "Maëlle Salmon reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/68"),
-             person("Hao", "Zhu", role = c("ctb"), comment = "Hao Zhu reviewed the package for rOpenSci, see https://github.com/ropensci/onboarding/issues/68"))
+             person("Andrew", "Russell", role = c("ctb"),
+                    comment = "This package is part of the KEHRA project and 
+                    Andrew supervised the technical/software development."),
+             person("Allan", "Tucker", role = c("ctb"),
+                    comment = "This package is part of the KEHRA project and 
+                    Allan supervised the technical/software development."),
+             person("Maëlle", "Salmon", role = c("ctb"),
+                    comment = "Maëlle Salmon reviewed the package for rOpenSci, 
+                    see https://github.com/ropensci/onboarding/issues/68"),
+             person("Hao", "Zhu", role = c("ctb"),
+                    comment = "Hao Zhu reviewed the package for rOpenSci, see 
+                    https://github.com/ropensci/onboarding/issues/68"))
 Maintainer: Claudia Vitolo <cvitolodev@gmail.com>
 URL: https://docs.ropensci.org/rdefra, https://github.com/ropensci/rdefra
 BugReports: https://github.com/ropensci/rdefra/issues
-Description: Get data from DEFRA's UK-AIR website <https://uk-air.defra.gov.uk/>. It basically scrapes the HTML content.
+Description: Retrieve air pollution data from the Air Information Resource 
+  (UK-AIR, <https://uk-air.defra.gov.uk/>) of the Department for Environment, 
+  Food and Rural Affairs (DEFRA) in the United Kingdom. UK-AIR does not provide 
+  a public API for programmatic access to data, therefore this package scrapes 
+  the HTML pages to get relevant information. The package is descibed in Vitolo 
+  et al. (2016) "rdefra: Interact with the UK AIR Pollution Database from DEFRA"
+  <doi:10.21105/joss.00051>
 Depends: R (>= 2.10)
 Imports: lubridate, tibble, httr, xml2, dplyr, sp, rgdal
 Suggests: testthat, rmarkdown, knitr, ggplot2, zoo
