@@ -1,6 +1,6 @@
 Package: rdefra
-Title: Interact with the UK AIR Pollution Database from DEFRA
-Version: 0.3.8
+Title: Retrieve data from UK AIR Pollution Database hosted by the Department for Environment, Food and Rural Affairs
+Version: 0.3.9
 Authors@R: c(person(given = "Claudia",
                     family = "Vitolo",
                     role = c("aut", "cre"),
@@ -21,13 +21,13 @@ Authors@R: c(person(given = "Claudia",
 Maintainer: Claudia Vitolo <cvitolodev@gmail.com>
 URL: https://docs.ropensci.org/rdefra, https://github.com/ropensci/rdefra
 BugReports: https://github.com/ropensci/rdefra/issues
-Description: Retrieve air pollution data from the Air Information Resource 
-  (UK-AIR, <https://uk-air.defra.gov.uk/>) of the Department for Environment, 
-  Food and Rural Affairs (DEFRA) in the United Kingdom. UK-AIR does not provide 
-  a public API for programmatic access to data, therefore this package scrapes 
-  the HTML pages to get relevant information. The package is descibed in Vitolo 
-  et al. (2016) "rdefra: Interact with the UK AIR Pollution Database from DEFRA"
-  <doi:10.21105/joss.00051>
+Description: Retrieve air pollution data from the Air Information Resource
+  (UK-AIR, <https://uk-air.defra.gov.uk/>) of the Department for Environment,
+  Food and Rural Affairs (DEFRA) in the United Kingdom.
+  UK-AIR does not provide a public API for programmatic access to data,
+  therefore this package scrapes the HTML pages to get relevant information.
+  The package is described in Vitolo et al. (2016) "rdefra: Interact with the
+  UK AIR Pollution Database from DEFRA" <doi:10.21105/joss.00051>
 Depends: R (>= 2.10)
 Imports: lubridate, tibble, httr, xml2, dplyr, sp, rgdal
 Suggests: testthat, rmarkdown, knitr, ggplot2, zoo
