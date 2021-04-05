@@ -17,7 +17,7 @@ test_that("Find site identification number from the UK AIR ID string.", {
 
   x <- try(ukair_get_site_id("UKA00399"), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(x == "ABD")
@@ -30,7 +30,7 @@ test_that("Find easting and northing coordinates of site UKA12536.", {
   
   x <- try(ukair_get_coordinates("UKA12536"), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
@@ -45,7 +45,7 @@ test_that("Find easting and northing coordinates of site UKA15910.", {
 
   x <- try(ukair_get_coordinates("UKA15910"), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
@@ -61,7 +61,7 @@ test_that("Find easting and northing coordinates of multiple sites.", {
   IDs <- c("UKA15910", "UKA15956", "UKA16663", "UKA16097")
   x <- try(ukair_get_coordinates(IDs), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
@@ -89,7 +89,7 @@ test_that("Infill missing coordinates from data frame.", {
                         class = c("tbl_df", "tbl", "data.frame"))
   x <- try(ukair_get_coordinates(stations), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_equal(round(x$Latitude[which(is.na(stations$Latitude))], 1),

@@ -6,7 +6,7 @@ test_that("Metadata should be in the right format", {
   years <- 2000:2014
   x <- try(ukair_get_hourly_data(site_id, years), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     y <- attributes(x)$units
@@ -22,7 +22,7 @@ test_that("Data should be in the right format", {
   years <- 2014
   x <- try(ukair_get_hourly_data(site_id, years), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(all(names(x)[1:2] == c("datetime", "SiteID")))
@@ -37,7 +37,7 @@ test_that("Try and retrieve hourly data", {
   x <- try(ukair_get_hourly_data(site_id = "ABD", years = "2014"),
            silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
     expect_true(dim(x)[1] >= 8760)
