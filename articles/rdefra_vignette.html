@@ -279,17 +279,13 @@ Hourly ozone data from London Marylebone Road monitoring station in 2015
 <code class="sourceCode R"><span class="co"># Zone</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Zone</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="rdefra_vignette_files/figure-html/dotchart1-1.png" alt="\label{fig:dotchart1}Spatial distribution of the monitoring stations across zones." width="672"><p class="caption">
-Spatial distribution of the monitoring stations across zones.
-</p>
+<img src="dotchart_zone.png" alt=""><p class="caption">dotchart_zone.png</p>
 </div>
 <div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Environment.Type</span>
 <span class="fu"><a href="https://rdrr.io/r/graphics/dotchart.html">dotchart</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/matrix.html">as.matrix</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html">table</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Environment.Type</span><span class="op">[</span><span class="va">stations</span><span class="op">$</span><span class="va">Environment.Type</span> <span class="op">!=</span> <span class="st">"Unknown Unknown"</span><span class="op">]</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>,<span class="fl">1</span><span class="op">]</span><span class="op">)</span></code></pre></div>
 <div class="figure">
-<img src="rdefra_vignette_files/figure-html/dotchart2-1.png" alt="\label{fig:dotchart2}Spatial distribution of the monitoring stations across environment types." width="672"><p class="caption">
-Spatial distribution of the monitoring stations across environment types.
-</p>
+<img src="dotchart_envtype.png" alt=""><p class="caption">dotchart_envtype.png</p>
 </div>
 </div>
 <div id="use-multiple-cores-to-speed-up-data-retrieval-from-numerous-sites" class="section level3">
