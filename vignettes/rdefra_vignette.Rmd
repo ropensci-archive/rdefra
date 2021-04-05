@@ -196,15 +196,17 @@ leaflet(data = stations_with_coords) %>% addTiles() %>%
 
 Below are two plots showing the spatial distribution of the monitoring stations. These are concentrated largely in urban areas and mostly estimate the background level of concentration of pollutants.
 
-```{r dotchart1, eval = TRUE, fig.width = 7, fig.height = 10, fig.cap = "\\label{fig:dotchart1}Spatial distribution of the monitoring stations across zones."}
+```{r dotchart1, eval = FALSE, fig.width = 7, fig.height = 10, fig.cap = "\\label{fig:dotchart1}Spatial distribution of the monitoring stations across zones."}
 # Zone
 dotchart(as.matrix(table(stations$Zone))[,1])
 ```
+![dotchart_zone.png](dotchart_zone.png)
 
-```{r dotchart2, eval = TRUE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:dotchart2}Spatial distribution of the monitoring stations across environment types."}
+```{r dotchart2, eval = FALSE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:dotchart2}Spatial distribution of the monitoring stations across environment types."}
 # Environment.Type
 dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != "Unknown Unknown"]))[,1])
 ```
+![dotchart_envtype.png](dotchart_envtype.png)
 
 ### Use multiple cores to speed up data retrieval from numerous sites
 
