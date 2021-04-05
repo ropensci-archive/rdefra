@@ -1,7 +1,7 @@
 # rdefra: Interact with the UK AIR Pollution Database from DEFRA
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.593187.svg)](https://doi.org/10.5281/zenodo.593187)
-[![status](http://joss.theoj.org/papers/57058f6e8a511f3bb0667ef7687cc87d/status.svg)](http://joss.theoj.org/papers/57058f6e8a511f3bb0667ef7687cc87d)
+[![JOSS](https://joss.theoj.org/papers/10.21105/joss.00051/status.svg)](https://doi.org/10.21105/joss.00051)
 
 [![R-CMD-check](https://github.com/ropensci/rdefra/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rdefra/actions)
 [![codecov.io](https://codecov.io/gh/ropensci/rdefra/coverage.svg?branch=master)](https://codecov.io/gh/ropensci/rdefra?branch=master)
@@ -99,4 +99,4 @@ applications, please refer to the package
 
 <br/>
 
-[![ropensci\_footer](http://ropensci.org/public_images/github_footer.png)](http://ropensci.org)
+[![ropensci\_footer](https://ropensci.org/public_images/github_footer.png)](https://ropensci.org/)

@@ -7,6 +7,7 @@ test_that("Catalogue should be a data.frame.", {
   if ("try-error" %in% class(x)){
     skip()
   }else{
+    print(class(x))
     expect_true("data.frame" %in% class(x))
     closeAllConnections()
   }

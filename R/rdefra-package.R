@@ -55,5 +55,5 @@ NULL
 #'
 #' @keywords datasets
 #'
-#' @source \url{http://uk-air.defra.gov.uk/}
+#' @source \url{https://uk-air.defra.gov.uk/}
 "stations"
