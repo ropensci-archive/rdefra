@@ -4,10 +4,9 @@ test_that("Catalogue should be a data.frame.", {
 
   x <- try(ukair_catalogue(), silent = TRUE)
   
-  if ("try-error" %in% class(x)){
+  if ("try-error" %in% class(x) | is.null(class(x))){
     skip()
   }else{
-    print(class(x))
     expect_true("data.frame" %in% class(x))
     closeAllConnections()
   }
