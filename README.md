@@ -12,7 +12,7 @@ Badge](http://www.r-pkg.org/badges/version/rdefra)](https://cran.r-project.org/p
 Downloads](http://cranlogs.r-pkg.org/badges/grand-total/rdefra)](https://cran.r-project.org/package=rdefra)
 [![CRAN Monthly
 Downloads](http://cranlogs.r-pkg.org/badges/rdefra)](https://cran.r-project.org/package=rdefra)
-[![](https://badges.ropensci.org/68_status.svg)](https://github.com/ropensci/onboarding/issues/68)
+[![](https://badges.ropensci.org/68_status.svg)](https://github.com/ropensci/software-review/issues/68)
 
 The package [rdefra](https://cran.r-project.org/package=rdefra) allows
 to retrieve air pollution data from the Air Information Resource
@@ -92,7 +92,7 @@ applications, please refer to the package
   - This package was reviewed by [Maëlle
     Salmon](https://github.com/maelle) and [Hao
     Zhu](https://github.com/haozhu233) for submission to ROpenSci (see
-    review [here](https://github.com/ropensci/onboarding/issues/68)) and
+    review [here](https://github.com/ropensci/software-review/issues/68)) and
     the Journal of Open Source Software (see review
     [here](https://github.com/openjournals/joss-reviews/issues/51)).
   - Cite `rdefra`: `citation(package = "rdefra")`

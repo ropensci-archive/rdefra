@@ -5,19 +5,15 @@ This is a resubmission due to bug fixing.
 ## Release Summary
 
 ## BUG FIXES
-* Updated tests to be compatible with PROJ6 [#9](https://github.com/ropensci/rdefra/issues/9)
-
-## MINOR CHANGES
-* Removed obsolete packages in 'Suggests'
-* Fixed invalid URIs
-* The following directory looks like a leftover from knitr
+* Code is now updated to ensure that in case of failure, the code fails gracefully and returns an informative message.
 
 ## NOTES
-Please note DEFRA and DEFRA's are not mispelled words.
+Please note that:
+* The following words are not misspelled: DEFRA, Vitolo, al, et, rdefra
 
 ## Test environment
-* Ubuntu 18.04, R 3.6.3
+* Ubuntu 18.04, R 4.0.4
 
 ## R CMD check results
 
-There were no ERRORs, WARNINGs or NOTEs.
+There were no other ERRORs, WARNINGs or NOTEs.

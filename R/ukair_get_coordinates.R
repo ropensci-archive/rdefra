@@ -94,13 +94,13 @@ ukair_get_coordinates.data.frame <- function(ids){
 #'
 
 ukair_get_coordinates_internal <- function(uka_id){
-
-  page_fetch <- httr::GET(url = "http://uk-air.defra.gov.uk",
-                          path = "networks/site-info",
-                          query = list(uka_id = uka_id))
+  
+  resp <- ukair_api(url,
+                    path = "networks/site-info",
+                    query = list(uka_id = uka_id))
 
   # download content
-  page_content <- httr::content(page_fetch, encoding = "UTF-8")
+  page_content <- httr::content(resp, encoding = "UTF-8")
 
   # Extract tab row containing Easting and Northing
   page_tab <- xml2::xml_find_all(page_content,

@@ -44,24 +44,9 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
     stop("Please insert a valid year (or sequence of years).")
 
   }
-
-  data <- vector("list", length = length(years))
-  units_data <- vector("list", length = length(years))
-  id <- 1
-
-  for (myYear in as.list(years)){
-
-    id <- which(as.list(years) == myYear)
-
-    df_tmp <- ukair_get_hourly_data_internal(site_id, myYear)
-
-    # only append to output if data retrieval worked
-    if (!is.null(df_tmp$data)) {
-      data[[id]] <- df_tmp$data
-      units_data[[id]] <- df_tmp$units
-    }
-
-  }
+  
+  data <- lapply(X = years,
+                 FUN = function(x) {ukair_get_hourly_data_internal(site_id, x)})
 
   # remove empties and bind data
   torm <- unlist(lapply(data, is.null))
@@ -70,23 +55,11 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
 
   if (is.null(new_data)) {
 
-    message(paste0("There are no data available for ",
-                   site_id, " in ", paste(years, collapse = "-"),
-                   ". Return NULL object."))
+    stop(paste0("There are no data available for ",
+                site_id, " in ", paste(years, collapse = "-"),
+                ". Return NULL object."))
 
   }
-
-  # remove empties and bind units
-  torm <- unlist(lapply(units_data, is.null))
-  units_data <- units_data[!torm]
-
-  # convert list to dataframe
-  new_meta <- dplyr::bind_rows(units_data)
-
-  new_meta$unit[new_meta$unit == ""] <- NA
-
-  # Add units as new attribute
-  attr(new_data, "units") <- tibble::as_tibble(new_meta)
 
   return(tibble::as_tibble(new_data))
 
@@ -102,47 +75,28 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
 #'
 
 ukair_get_hourly_data_internal <- function(site_id, a_year){
+  
+  resp <- ukair_api(url,
+                    path = paste0("data_files/site_data/",
+                                  site_id, "_", a_year, ".csv"),
+                    query = "")
+  
+  df <- suppressWarnings(httr::content(resp, encoding = "UTF-8", skip = 4))
 
-  root_url <- "https://uk-air.defra.gov.uk/data_files/site_data/"
-  my_url <- paste0(root_url, site_id, "_", a_year, ".csv")
+  if ("try-error" %in% class(df)){
 
-  df <- try(read.csv(my_url, skip = 4)[-c(1), ])
-
-  if (class(df) == "try-error"){
-
-    new_df <- NULL
+    #new_df <- NULL
     message(paste("No data available for station", site_id))
 
   }else{
 
-    # Build the attribute table to store units
-    col_units <- which(substr(names(df), 1, 4) == "unit")
-    col_vars <- col_units - 2
-    units_col <- as.character(t(df[1, col_units]))
-    units_df <- data.frame("variable" = names(df)[col_vars],
-                          "unit" = units_col,
-                          "year" = a_year,
-                          stringsAsFactors = FALSE)
+    datetime <- suppressWarnings(lubridate::dmy_hms(paste(df$Date, df$time),
+                                                    tz = "Europe/London"))
+    df_new <- cbind(datetime = datetime,
+                    SiteID = site_id,
+                    df[, which(!(names(df) %in% c("Date", "time")))])
 
-    # Remove status and units columns
-    col2rm <- which(substr(names(df), 1, 6) == "status" |
-                      substr(names(df), 1, 4) == "unit")
-
-    df <- df[, -col2rm]
-
-    df$Date <- as.character(df$Date)
-    df$time <- as.character(df$time)
-    df$time[which(df$time == "24:00")] <- "00:00"
-
-    new_df <- cbind("datetime" = lubridate::dmy_hm(paste(df$Date, df$time,
-                                                        tz = "Europe/London")),
-                   "SiteID" = site_id,
-                   df[, 3:dim(df)[2]])
-
-    # Create a list
-    output <- list("data" = new_df, "units" = units_df)
-
-    return(output)
+    return(df_new)
 
   }
 

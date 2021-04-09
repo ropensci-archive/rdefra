@@ -61,7 +61,7 @@ The list of monitoring stations can be downloaded using the function `ukair_cata
 ```{r catalogue_full, eval = TRUE}
 # Get full catalogue
 stations <- ukair_catalogue()
-stations
+head(stations)
 ```
 
 There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:
@@ -75,14 +75,14 @@ There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, 
 
 ```{r catalogue_filter, eval = TRUE}
 stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
-stations_EnglandOzone
+head(stations_EnglandOzone)
 ```
 
 The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` stations in England in which ozone is measured.
 
 ### Get missing coordinates
 
-Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing (coordinates in the British National Grid) from DEFRA web pages, transform them to latitude and longitude and populate the missing coordinates as shown below.
+Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing coordinates (British National Grid) from DEFRA web pages, transform them to latitude and longitude and populate the missing coordinates as shown below.
 
 ```{r get_coords1, eval = TRUE}
 # How many stations have missing coordinates?
@@ -112,7 +112,7 @@ Please note this function takes several minutes to run.
 
 ### Cached catalogue
 
-For convenience, a cached version of the catalogue (last updated in December 2019) is included in the package and can be loaded using the following command:
+For convenience, a cached version of the catalogue (last updated in April 2021) is included in the package and can be loaded using the following command:
 
 ```{r load_dataset_stations}
 data("stations")
@@ -124,7 +124,7 @@ The cached catalogue contains all the available siteIDs and coordinates and can 
 
 Once the SiteID is known, time series for a given station can be retrieved in one line of code:
   
-```{r get_hourly_data, eval = TRUE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:hdata}Hourly ozone data from London Marylebone Road monitoring station in 2015"}
+```{r get_hourly_data, eval = FALSE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:hdata}Hourly ozone data from London Marylebone Road monitoring station in 2015"}
 # Get 1 year of hourly ozone data from London Marylebone Road monitoring station
 df <- ukair_get_hourly_data("MY1", years = 2015)
 
@@ -138,6 +138,7 @@ daily_means <- aggregate(my1, as.Date(as.POSIXlt(df$datetime)), mean)
 plot(daily_means, main = "", xlab = "",
      ylab = expression(paste("Ozone concentration [", mu, "g/", m^3, "]")))
 ```
+![get_hourly_data.png](get_hourly_data.png)
 
 The above figure \ref{fig:hdata} shows the highest concentrations happen in late spring and at the beginning of summer. In order to check whether this happens every year, we can download multiple years of data and then compare them.
 
@@ -150,14 +151,14 @@ library("dplyr")
 library("lubridate")
 
 df <- ukair_get_hourly_data("MY1", years = 2000:2015)
-df <- mutate(df, 
-             year = year(datetime),
-             month = month(datetime),
-             year_month = strftime(datetime, "%Y-%m"))
 
 df %>%
+  mutate(year = year(datetime),
+         month = month(datetime),
+         year_month = strftime(datetime, "%Y-%m")) %>%
   group_by(month, year_month) %>%
   summarize(ozone = mean(Ozone, na.rm=TRUE)) %>%
+  na.omit %>%
   ggplot() +
   geom_boxplot(aes(x = as.factor(month), y = ozone, group = month),
                outlier.shape = NA) +
@@ -165,6 +166,7 @@ df %>%
   ylab(expression(paste("Ozone concentration (", mu, "g/",m^3,")"))) +
   ggtitle("15 years of hourly ozone data from London Marylebone Road monitoring station")
 ```
+![ozone_data.png](ozone_data.png)
 
 ## Applications
 
@@ -191,6 +193,7 @@ leaflet(data = stations_with_coords) %>% addTiles() %>%
                    radius = 0.5, color="red", 
                    popup = ~SiteID[stations_with_SiteID])
 ```
+![map_data.png](map_data.png)
 
 ### Analyse the spatial distribution of the monitoring stations
 

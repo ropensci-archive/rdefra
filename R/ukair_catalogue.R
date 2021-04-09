@@ -16,6 +16,8 @@
 #' Aberdeen City, etc. (for the full list see
 #' \url{https://uk-air.defra.gov.uk/}). Default is 9999, which means all the
 #' local authorities.
+#' @param location_type This is the identification number of the location type.
+#' Default is 9999, which means all the location types.
 #'
 #' @details
 #' The argument \code{Pollutant} is defined based on the following convention:
@@ -91,7 +93,8 @@ ukair_catalogue <- function(site_name = "",
                             group_id = 9999,
                             closed = "true",
                             country_id = 9999,
-                            region_id = 9999){
+                            region_id = 9999,
+                            location_type = 9999){
 
   if (!(pollutant %in% 1:10 | pollutant == 9999)) {
     stop(paste("The parameter 'pollutant' is not set correctly,",
@@ -111,23 +114,24 @@ ukair_catalogue <- function(site_name = "",
                "countries)."))
   }
 
+  path <- "networks/find-sites"
   # Any NULL elements of the list supplied to the query paramater are
   # automatically dropped
-  catalogue_fetch <- httr::GET(url = "http://uk-air.defra.gov.uk",
-                               path = "networks/find-sites",
-                               query = list(site_name = site_name,
-                                            pollutant = pollutant,
-                                            group_id = group_id,
-                                            closed = closed,
-                                            country_id = country_id,
-                                            region_id = region_id,
-                                            location_type = 9999,
-                                            search = "Search+Network",
-                                            view = "advanced",
-                                            action = "results"))
+  query <- list(site_name = site_name,
+                pollutant = pollutant,
+                group_id = group_id,
+                closed = closed,
+                country_id = country_id,
+                region_id = region_id,
+                location_type = location_type,
+                search = "Search+Network",
+                view = "advanced",
+                action = "results")
+  
+  resp <- ukair_api(url, path, query)
 
   # download content
-  catalogue_content <- httr::content(catalogue_fetch, encoding = "UTF-8")
+  catalogue_content <- httr::content(resp, encoding = "UTF-8")
 
   # Extract csv link
   catalogue_csv_link <- xml2::xml_find_first(catalogue_content,

@@ -10,6 +10,7 @@
 #' @docType package
 #'
 #' @import rgdal
+#' @importFrom curl has_internet
 #' @importFrom httr GET content http_error set_config config
 #' @importFrom utils read.csv
 #' @importFrom xml2 xml_find_first xml_attr xml_find_all

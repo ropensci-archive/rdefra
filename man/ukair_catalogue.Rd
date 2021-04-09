@@ -10,7 +10,8 @@ ukair_catalogue(
   group_id = 9999,
   closed = "true",
   country_id = 9999,
-  region_id = 9999
+  region_id = 9999,
+  location_type = 9999
 )
 }
 \arguments{
@@ -32,6 +33,9 @@ a number from 1 to 6. Default is 9999, which means all the countries.}
 Aberdeen City, etc. (for the full list see
 \url{https://uk-air.defra.gov.uk/}). Default is 9999, which means all the
 local authorities.}
+
+\item{location_type}{This is the identification number of the location type.
+Default is 9999, which means all the location types.}
 }
 \value{
 A dataframe listing stations and related information.

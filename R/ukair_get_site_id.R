@@ -35,15 +35,15 @@ ukair_get_site_id <- function(id_s){
 #'
 
 ukair_get_site_id_internal <- function(uka_id){
-
-  page_fetch <- httr::GET(url = "http://uk-air.defra.gov.uk",
-                          path = "networks/site-info",
-                          query = list(uka_id = uka_id,
-                                       search = "View+Site+Information",
-                                       action = "site"))
+  
+  resp <- ukair_api(url,
+                    path = "networks/site-info",
+                    query = list(uka_id = uka_id,
+                                 search = "View+Site+Information",
+                                 action = "site"))
 
   # download content
-  page_content <- httr::content(page_fetch, encoding = "UTF-8")
+  page_content <- httr::content(resp, encoding = "UTF-8")
 
   # Extract tab row containing Easting and Northing
   page_tab <- xml2::xml_find_all(page_content, '//*[@id="g4"]/td[4]/a[4]')
