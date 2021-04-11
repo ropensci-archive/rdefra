@@ -5,7 +5,7 @@ test_that("Catalogue should be a data.frame.", {
   x <- try(ukair_catalogue(), silent = TRUE)
   
   if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
+    skip("Catalogue could not be retrieved")
   }else{
     expect_true("data.frame" %in% class(x))
     closeAllConnections()
@@ -18,7 +18,7 @@ test_that("Find site identification number from the UK AIR ID string.", {
   x <- try(ukair_get_site_id("UKA00399"), silent = TRUE)
   
   if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
+    skip("Site identification number could not be found")
   }else{
     expect_true(x == "ABD")
     expect_true(is.na(ukair_get_site_id("UKA11248")))
@@ -31,27 +31,12 @@ test_that("Find easting and northing coordinates of site UKA12536.", {
   x <- try(ukair_get_coordinates("UKA12536"), silent = TRUE)
   
   if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
+    skip("Easting and Northing coordinates of 1 site could not be found")
   }else{
     expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
                                     "Latitude", "Longitude")))
     expect_true(round(x$Longitude, 1) == -0.4)
     expect_true(round(x$Latitude, 1) == 51.7)
-  }
-
-})
-
-test_that("Find easting and northing coordinates of site UKA15910.", {
-
-  x <- try(ukair_get_coordinates("UKA15910"), silent = TRUE)
-  
-  if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
-  }else{
-    expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
-                                    "Latitude", "Longitude")))
-    expect_true(round(x$Longitude, 1) == -0.7)
-    expect_true(round(x$Latitude, 1) == 51.3)
   }
 
 })
@@ -62,7 +47,7 @@ test_that("Find easting and northing coordinates of multiple sites.", {
   x <- try(ukair_get_coordinates(IDs), silent = TRUE)
   
   if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
+    skip("Easting and Northing coordinates of multiple sites could not be found")
   }else{
     expect_true(all(names(x) %in% c("UK.AIR.ID", "Easting", "Northing",
                                     "Latitude", "Longitude")))
@@ -90,7 +75,7 @@ test_that("Infill missing coordinates from data frame.", {
   x <- try(ukair_get_coordinates(stations), silent = TRUE)
   
   if ("try-error" %in% class(x) | is.null(class(x))){
-    skip()
+    skip("Failed to infill missing coordinates from data frame")
   }else{
     expect_equal(round(x$Latitude[which(is.na(stations$Latitude))], 1),
                  c(51.7, 51.7, 51.6))

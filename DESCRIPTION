@@ -29,7 +29,7 @@ Description: This packages allows to retrieve air pollution data from the Air
   The package is described in Vitolo et al. (2016) "rdefra: Interact with the
   UK AIR Pollution Database from DEFRA" <doi:10.21105/joss.00051>.
 Depends: R (>= 3.5.0)
-Imports: lubridate, tibble, httr, xml2, dplyr, sp, rgdal, curl
+Imports: lubridate, tibble, httr, xml2, dplyr, sf, rgdal, curl
 Suggests: testthat, rmarkdown, knitr, ggplot2, zoo
 SystemRequirements: GDAL
 VignetteBuilder: knitr

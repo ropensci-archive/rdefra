@@ -41,50 +41,77 @@ ukair_get_coordinates.default <- function(ids) {
 
 #' @export
 ukair_get_coordinates.character <- function(ids){
-  
-  df <- data.frame(t(sapply(ids, ukair_get_coordinates_internal)))
-  df$Latitude <- NA
-  df$Longitude <- NA
 
-  df_extended <- en2latlon(df)
-  df <- cbind("UK.AIR.ID" = ids, df_extended)
+  # Make sure there are no missing IDs
+  rows_non_na <- which(!is.na(ids))
+
+  df <- data.frame(t(sapply(ids[rows_non_na], ukair_get_coordinates_internal)))
+  sfdf_en <- sf::st_as_sf(df, coords = c("Easting", "Northing"), crs = 27700)
+  sfdf_latlon <- sf::st_transform(sfdf_en, crs = 4326)
+  
+  df_extended <- data.frame(UK.AIR.ID = ids,
+                            Longitude = NA, Latitude = NA,
+                            Easting = NA, Northing = NA)
+  df_extended$Longitude[rows_non_na] <- sf::st_coordinates(sfdf_latlon)[, 1]
+  df_extended$Latitude[rows_non_na] <- sf::st_coordinates(sfdf_latlon)[, 2]
+  df_extended$Easting[rows_non_na] <- sf::st_coordinates(sfdf_en)[, 1]
+  df_extended$Northing[rows_non_na] <- sf::st_coordinates(sfdf_en)[, 2]
 
   # return a data.frame with coordinates
-  return(tibble::as_tibble(df))
+  return(tibble::as_tibble(df_extended))
 
 }
 
 #' @export
 ukair_get_coordinates.data.frame <- function(ids){
-
-  if ("Northing" %in% names(ids) & "Easting" %in% names(ids)){
-
-    # We expect to infill only missing coordinates
-    nrows <- which(is.na(ids$Northing) | is.na(ids$Easting))
-
-  }else{
-
-    # otherwise, we force to extract coordinates for all the given stations
-    ids$Northing <- NA
-    ids$Easting <- NA
-    nrows <- seq(1, dim(ids)[1])
-
+  
+  if (!"Northing" %in% names(ids)) ids$Northing <- NA
+  if (!"Easting" %in% names(ids)) ids$Easting <- NA
+  if (!"Latitude" %in% names(ids)) ids$Latitude <- NA
+  if (!"Longitude" %in% names(ids)) ids$Longitude <- NA
+  
+  # Which rows (stations) are the missing Easting/Northing coordinates?
+  rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
+  # For these rows, can we get Easting/Northing from Longitude/Latitude coordinates?
+  rows_missing_en_with_ll <- rows_missing_en[which(!is.na(ids$Latitude[rows_missing_en]) | !is.na(ids$Longitude[rows_missing_en]))]
+  
+  if (length(rows_missing_en_with_ll) > 0) {
+    # Transform coordinates
+    sfdf_ll <- sf::st_as_sf(ids[rows_missing_en_with_ll,], coords = c("Longitude", "Latitude"), crs = 4326)
+    sfdf_en <- sf::st_transform(sfdf_ll, crs = 27700)
+    ids$Easting[rows_missing_en_with_ll] <- sf::st_coordinates(sfdf_en)[, 1]
+    ids$Northing[rows_missing_en_with_ll] <- sf::st_coordinates(sfdf_en)[, 2]
   }
+  
+  # For the remaining coordinates we scrape the website
+  rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
+  
+  # Get missing Easting/Northing from website, if available
+  df_en <- data.frame(t(sapply(ids$UK.AIR.ID[rows_missing_en],
+                               ukair_get_coordinates_internal)))
+  if (any(!is.na(df_en$Easting))) {
+    ids$Easting[rows_missing_en] <- df_en$Easting
+  }
+  if (any(!is.na(df_en$Northing))) {
+    ids$Northing[rows_missing_en] <- df_en$Northing
+  }
+  # What rows are still missing Easting/Northing coordinates?
+  # rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
+  
+  # Which rows (stations) are the missing Longitude/Latitude coordinates?
+  rows_missing_ll <- which(is.na(ids$Latitude) | is.na(ids$Longitude))
 
-  # This is the list of all the relevant ids
-  id_s <- as.character(ids$UK.AIR.ID[nrows])
-
-  df_extended <- data.frame(t(sapply(id_s, ukair_get_coordinates_internal)))
-
-  ids$Northing[nrows] <- df_extended$Northing
-  ids$Easting[nrows] <- df_extended$Easting
-  ids$Northing <- as.numeric(ids$Northing)
-  ids$Easting <- as.numeric(ids$Easting)
-
-  df0 <- en2latlon(ids)
-  df <- latlon2en(df0)
-
-  return(tibble::as_tibble(df))
+  # Transform coordinates
+  if (length(rows_missing_ll) > 0) {
+    sfdf_en <- sf::st_as_sf(ids[rows_missing_ll, ],
+                            coords = c("Easting", "Northing"), crs = 27700)
+    sfdf_ll <- sf::st_transform(sfdf_en, crs = 4326)
+    ids$Longitude[rows_missing_ll] <- sf::st_coordinates(sfdf_ll)[, 1]
+    ids$Latitude[rows_missing_ll] <- sf::st_coordinates(sfdf_ll)[, 2]
+  }
+  
+  # return a data.frame with coordinates
+  return(tibble::as_tibble(ids))
 
 }
 
@@ -128,71 +155,4 @@ ukair_get_coordinates_internal <- function(uka_id){
 
   return(en_numeric)
 
-}
-
-#' Convert Easting and Northing to Latitude and Longitude
-#'
-#' @noRd
-#'
-
-en2latlon <- function(df){
-
-  # If there are missing Lat/Lon but known Easting and Northing,
-  # then transform Easting and Northing to Latitude and Longitude
-  lonlat_na <- which(is.na(df$Longitude) | is.na(df$Latitude))
-  en_na <- which(is.na(df$Easting) | is.na(df$Northing))
-  rows2transform <- setdiff(lonlat_na, en_na)
-
-  if (length(rows2transform) > 0){
-
-    df_no_nas <- df[rows2transform,]
-    # First step: define spatial points
-    sp::coordinates(df_no_nas) <- ~Easting + Northing
-    sp::proj4string(df_no_nas) <- sp::CRS("+init=epsg:27700")
-    # then, convert coordinates from British National Grid to WGS84
-    latlon <- round(sp::spTransform(df_no_nas,
-                                    sp::CRS("+init=epsg:4326"))@coords, 6)
-    pt <- data.frame(latlon)
-    names(pt) <- c("Longitude", "Latitude")
-    df$Latitude[rows2transform] <- pt$Latitude
-    df$Longitude[rows2transform] <- pt$Longitude
-    
-  }
-
-  return(df)
-
-}
-
-#' Convert Latitude and Longitude to Easting and Northing
-#'
-#' @noRd
-#'
-
-latlon2en <- function(df){
-  
-  # If there are missing Lat/Lon but known Easting and Northing,
-  # then transform Easting and Northing to Latitude and Longitude
-  lonlat_na <- which(is.na(df$Longitude) | is.na(df$Latitude))
-  en_na <- which(is.na(df$Easting) | is.na(df$Northing))
-  rows2transform <- en_na[which(!(en_na %in% lonlat_na))]
-  
-  if (length(rows2transform) > 0){
-    
-    df_no_nas <- df[rows2transform,]
-    # First step: define spatial points
-    sp::coordinates(df_no_nas) <- ~Longitude + Latitude
-    sp::proj4string(df_no_nas) <- sp::CRS("+init=epsg:4326")
-    # then, convert coordinates from British National Grid to WGS84
-    latlon <- round(sp::spTransform(df_no_nas,
-                                    sp::CRS("+init=epsg:27700"))@coords, 6)
-    pt <- data.frame(latlon)
-    names(pt) <- c("Easting", "Northing")
-    df$Northing[rows2transform] <- pt$Northing
-    df$Easting[rows2transform] <- pt$Easting
-    
-  }
-  
-  
-  return(df)
-  
 }

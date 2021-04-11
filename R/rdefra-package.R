@@ -17,7 +17,7 @@
 #' @importFrom lubridate dmy_hm ymd
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_rows
-#' @importFrom sp coordinates proj4string CRS spTransform
+#' @importFrom sf st_as_sf st_transform st_coordinates
 #'
 NULL
 
