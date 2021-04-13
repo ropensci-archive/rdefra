@@ -2,7 +2,7 @@
 url <- "http://uk-air.defra.gov.uk"
 
 # Main API function
-ukair_api <- function(url, path, query) {
+ukair_api <- function(url = "http://uk-air.defra.gov.uk", path, query) {
   url_path <- httr::modify_url(url = url, path = path)
   gracefully_fail(url_path)
   resp <- httr::GET(url = url, path = path, query = query)

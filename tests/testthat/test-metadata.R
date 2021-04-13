@@ -7,7 +7,7 @@ test_that("Catalogue should be a data.frame.", {
   if ("try-error" %in% class(x) | is.null(class(x)) | class(x) == "NULL") {
     skip("Catalogue could not be retrieved")
   }else{
-    expect_equal("data.frame" %in% class(x))
+    expect_true("data.frame" %in% class(x))
     closeAllConnections()
   }
 
