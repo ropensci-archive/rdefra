@@ -76,7 +76,7 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL) {
 
 ukair_get_hourly_data_internal <- function(site_id, a_year) {
 
-  resp <- ukair_api(url,
+  resp <- ukair_api(url = ukair_url,
                     path = paste0("data_files/site_data/",
                                   site_id, "_", a_year, ".csv"),
                     query = "")

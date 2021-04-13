@@ -36,7 +36,7 @@ ukair_get_site_id <- function(id_s) {
 
 ukair_get_site_id_internal <- function(uka_id) {
 
-  resp <- ukair_api(url,
+  resp <- ukair_api(url = ukair_url,
                     path = "networks/site-info",
                     query = list(uka_id = uka_id,
                                  search = "View+Site+Information",

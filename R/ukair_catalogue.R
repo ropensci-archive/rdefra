@@ -128,7 +128,7 @@ ukair_catalogue <- function(site_name = "",
                 view = "advanced",
                 action = "results")
 
-  resp <- ukair_api(url, path, query)
+  resp <- ukair_api(url = ukair_url, path, query)
 
   # download content
   catalogue_content <- httr::content(resp, encoding = "UTF-8")

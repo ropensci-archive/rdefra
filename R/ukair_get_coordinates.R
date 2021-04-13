@@ -124,7 +124,7 @@ ukair_get_coordinates.data.frame <- function(ids) {
 
 ukair_get_coordinates_internal <- function(uka_id) {
 
-  resp <- ukair_api(url,
+  resp <- ukair_api(url = ukair_url,
                     path = "networks/site-info",
                     query = list(uka_id = uka_id))
 
