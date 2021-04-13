@@ -9,7 +9,8 @@ ukair_api <- function(url, path, query) {
   return(resp)
 }
 
-# From https://community.rstudio.com/t/internet-resources-should-fail-gracefully/49199/12
+# From
+# https://community.rstudio.com/t/internet-resources-should-fail-gracefully/49199/12
 gracefully_fail <- function(remote_file) {
   try_GET <- function(x, ...) {
     tryCatch(
@@ -21,7 +22,7 @@ gracefully_fail <- function(remote_file) {
   is_response <- function(x) {
     class(x) == "response"
   }
-  
+
   # First check internet connection
   if (!curl::has_internet()) {
     message("No internet connection.")
@@ -34,7 +35,7 @@ gracefully_fail <- function(remote_file) {
     return(invisible(NULL))
   }
   # Then stop if status > 400
-  if (httr::http_error(resp)) { 
+  if (httr::http_error(resp)) {
     httr::message_for_status(resp)
     return(invisible(NULL))
   }

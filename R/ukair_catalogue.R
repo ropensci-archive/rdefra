@@ -94,7 +94,7 @@ ukair_catalogue <- function(site_name = "",
                             closed = "true",
                             country_id = 9999,
                             region_id = 9999,
-                            location_type = 9999){
+                            location_type = 9999) {
 
   if (!(pollutant %in% 1:10 | pollutant == 9999)) {
     stop(paste("The parameter 'pollutant' is not set correctly,",
@@ -127,7 +127,7 @@ ukair_catalogue <- function(site_name = "",
                 search = "Search+Network",
                 view = "advanced",
                 action = "results")
-  
+
   resp <- ukair_api(url, path, query)
 
   # download content
@@ -143,9 +143,9 @@ ukair_catalogue <- function(site_name = "",
     df <- utils::read.csv(catalogue_csv_link, stringsAsFactors = FALSE)
 
     # Loop through character columns
-    for (colx in 1:dim(df)[2]){
+    for (colx in 1:dim(df)[2]) {
       if ("character" %in% class(df[, colx]) &
-          length(grep("[^ -~]", df[, colx])) > 0){
+          length(grep("[^ -~]", df[, colx])) > 0) {
         # Remove non-ASCII characters
         tempcol <- as.character(df[, colx])
         Encoding(tempcol) <- "latin1"

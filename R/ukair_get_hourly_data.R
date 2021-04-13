@@ -29,7 +29,7 @@
 #'  }
 #'
 
-ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
+ukair_get_hourly_data <- function(site_id = NULL, years = NULL) {
 
   if (is.null(site_id)) {
 
@@ -44,7 +44,7 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
     stop("Please insert a valid year (or sequence of years).")
 
   }
-  
+
   data <- lapply(X = years,
                  FUN = function(x) {ukair_get_hourly_data_internal(site_id, x)})
 
@@ -74,18 +74,17 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL){
 #' @noRd
 #'
 
-ukair_get_hourly_data_internal <- function(site_id, a_year){
-  
+ukair_get_hourly_data_internal <- function(site_id, a_year) {
+
   resp <- ukair_api(url,
                     path = paste0("data_files/site_data/",
                                   site_id, "_", a_year, ".csv"),
                     query = "")
-  
+
   df <- suppressWarnings(httr::content(resp, encoding = "UTF-8", skip = 4))
 
-  if ("try-error" %in% class(df)){
+  if ("try-error" %in% class(df)) {
 
-    #new_df <- NULL
     message(paste("No data available for station", site_id))
 
   }else{

@@ -16,7 +16,7 @@
 #'  }
 #'
 
-ukair_get_site_id <- function(id_s){
+ukair_get_site_id <- function(id_s) {
 
   id_s <- as.character(id_s)
 
@@ -34,8 +34,8 @@ ukair_get_site_id <- function(id_s){
 #' @noRd
 #'
 
-ukair_get_site_id_internal <- function(uka_id){
-  
+ukair_get_site_id_internal <- function(uka_id) {
+
   resp <- ukair_api(url,
                     path = "networks/site-info",
                     query = list(uka_id = uka_id,
@@ -49,7 +49,7 @@ ukair_get_site_id_internal <- function(uka_id){
   page_tab <- xml2::xml_find_all(page_content, '//*[@id="g4"]/td[4]/a[4]')
   hrefs <- xml2::xml_attr(page_tab, "href")
 
-  if (is.null(hrefs)){
+  if (is.null(hrefs)) {
 
     site_id <- NA
     message("No ID available for the specified station")

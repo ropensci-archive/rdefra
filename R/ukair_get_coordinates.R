@@ -40,7 +40,7 @@ ukair_get_coordinates.default <- function(ids) {
 }
 
 #' @export
-ukair_get_coordinates.character <- function(ids){
+ukair_get_coordinates.character <- function(ids) {
 
   # Make sure there are no missing IDs
   rows_non_na <- which(!is.na(ids))
@@ -64,28 +64,30 @@ ukair_get_coordinates.character <- function(ids){
 
 #' @export
 ukair_get_coordinates.data.frame <- function(ids) {
-  
+
   if (!"Northing" %in% names(ids)) ids$Northing <- NA
   if (!"Easting" %in% names(ids)) ids$Easting <- NA
   if (!"Latitude" %in% names(ids)) ids$Latitude <- NA
   if (!"Longitude" %in% names(ids)) ids$Longitude <- NA
-  
+
   # Which rows (stations) are the missing Easting/Northing coordinates?
   rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
-  # For these rows, can we get Easting/Northing from Longitude/Latitude coordinates?
+  # For these rows, can we get Easting/Northing from Longitude/Latitude
+  # coordinates?
   rows_missing_en_with_ll <- rows_missing_en[which(!is.na(ids$Latitude[rows_missing_en]) | !is.na(ids$Longitude[rows_missing_en]))]
-  
+
   if (length(rows_missing_en_with_ll) > 0) {
     # Transform coordinates
-    sfdf_ll <- sf::st_as_sf(ids[rows_missing_en_with_ll,], coords = c("Longitude", "Latitude"), crs = 4326)
+    sfdf_ll <- sf::st_as_sf(ids[rows_missing_en_with_ll, ],
+                            coords = c("Longitude", "Latitude"), crs = 4326)
     sfdf_en <- sf::st_transform(sfdf_ll, crs = 27700)
     ids$Easting[rows_missing_en_with_ll] <- sf::st_coordinates(sfdf_en)[, 1]
     ids$Northing[rows_missing_en_with_ll] <- sf::st_coordinates(sfdf_en)[, 2]
   }
-  
+
   # For the remaining coordinates we scrape the website
   rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
-  
+
   # Get missing Easting/Northing from website, if available
   df_en <- data.frame(t(sapply(ids$UK.AIR.ID[rows_missing_en],
                                ukair_get_coordinates_internal)))
@@ -97,7 +99,7 @@ ukair_get_coordinates.data.frame <- function(ids) {
   }
   # What rows are still missing Easting/Northing coordinates?
   # rows_missing_en <- which(is.na(ids$Northing) | is.na(ids$Easting))
-  
+
   # Which rows (stations) are the missing Longitude/Latitude coordinates?
   rows_missing_ll <- which(is.na(ids$Latitude) | is.na(ids$Longitude))
 
@@ -109,7 +111,7 @@ ukair_get_coordinates.data.frame <- function(ids) {
     ids$Longitude[rows_missing_ll] <- sf::st_coordinates(sfdf_ll)[, 1]
     ids$Latitude[rows_missing_ll] <- sf::st_coordinates(sfdf_ll)[, 2]
   }
-  
+
   # return a data.frame with coordinates
   return(tibble::as_tibble(ids))
 
@@ -121,7 +123,7 @@ ukair_get_coordinates.data.frame <- function(ids) {
 #'
 
 ukair_get_coordinates_internal <- function(uka_id) {
-  
+
   resp <- ukair_api(url,
                     path = "networks/site-info",
                     query = list(uka_id = uka_id))
@@ -141,7 +143,7 @@ ukair_get_coordinates_internal <- function(uka_id) {
   # split string into easting and northing and remove heading/trailing spaces
   en <- gsub("^\\s+|\\s+$", "", unlist(strsplit(x, ",")))
 
-  if (!is.null(en) & en[1] != "Not available" & en[2] != "Not available"){
+  if (!is.null(en) & en[1] != "Not available" & en[2] != "Not available") {
 
     en_numeric <- c("Easting" = as.numeric(en[1]),
                     "Northing" = as.numeric(en[2]))
