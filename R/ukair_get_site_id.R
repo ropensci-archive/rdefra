@@ -28,9 +28,6 @@ ukair_get_site_id <- function(id_s) {
 
 #' Internal function to get site id_s for 1 DEFRA station
 #'
-#' @importFrom httr GET content
-#' @importFrom xml2 xml_attr xml_find_all
-#'
 #' @noRd
 #'
 

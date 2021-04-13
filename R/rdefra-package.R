@@ -14,7 +14,7 @@
 #' @importFrom httr GET content http_error set_config config
 #' @importFrom utils read.csv
 #' @importFrom xml2 xml_find_first xml_attr xml_find_all
-#' @importFrom lubridate dmy_hm ymd
+#' @importFrom lubridate dmy_hms ymd
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_rows
 #' @importFrom sf st_as_sf st_transform st_coordinates

@@ -67,10 +67,6 @@ ukair_get_hourly_data <- function(site_id = NULL, years = NULL) {
 
 #' Get hourly data for 1 DEFRA station
 #'
-#' @importFrom httr http_error
-#' @importFrom utils read.csv
-#' @importFrom lubridate dmy_hm
-#'
 #' @noRd
 #'
 
