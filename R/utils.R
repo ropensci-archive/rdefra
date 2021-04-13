@@ -14,7 +14,7 @@ ukair_api <- function(url, path, query) {
 gracefully_fail <- function(remote_file) {
   try_GET <- function(x, ...) {
     tryCatch(
-      httr::GET(url = x, httr::timeout(60), ...),
+      httr::GET(url = x, httr::timeout(300), ...),
       error = function(e) conditionMessage(e),
       warning = function(w) conditionMessage(w)
     )
