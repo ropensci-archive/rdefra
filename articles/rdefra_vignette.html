@@ -127,8 +127,19 @@
 <code class="sourceCode R"><span class="co"># Get full catalogue</span>
 <span class="va">stations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_catalogue.html">ukair_catalogue</a></span><span class="op">(</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span>
-<span class="co">#&gt; NULL</span></code></pre></div>
-<p>There are currently stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:</p>
+<span class="co">#&gt; # A tibble: 6 x 16</span>
+<span class="co">#&gt;   UK.AIR.ID EU.Site.ID EMEP.Site.ID Site.Name         Environment.Type Zone     </span>
+<span class="co">#&gt;   &lt;chr&gt;     &lt;chr&gt;      &lt;chr&gt;        &lt;chr&gt;             &lt;chr&gt;            &lt;chr&gt;    </span>
+<span class="co">#&gt; 1 UKA15910  &lt;NA&gt;       &lt;NA&gt;         SH15, SH20, SH25… &lt;NA&gt;             South Ea…</span>
+<span class="co">#&gt; 2 UKA15956  &lt;NA&gt;       &lt;NA&gt;         SH15, SH22, SH25… &lt;NA&gt;             South Ea…</span>
+<span class="co">#&gt; 3 UKA16663  &lt;NA&gt;       &lt;NA&gt;         SH15, SH22, SH25… &lt;NA&gt;             South Ea…</span>
+<span class="co">#&gt; 4 UKA16097  &lt;NA&gt;       &lt;NA&gt;         10 High Street T… &lt;NA&gt;             South Ea…</span>
+<span class="co">#&gt; 5 UKA12536  &lt;NA&gt;       &lt;NA&gt;         ABBOTS LANGLEY 1  &lt;NA&gt;             Greater …</span>
+<span class="co">#&gt; 6 UKA12949  &lt;NA&gt;       &lt;NA&gt;         ABERBARGOED 1     &lt;NA&gt;             South Wa…</span>
+<span class="co">#&gt; # … with 10 more variables: Start.Date &lt;dttm&gt;, End.Date &lt;dttm&gt;, Latitude &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   Longitude &lt;dbl&gt;, Northing &lt;dbl&gt;, Easting &lt;dbl&gt;, Altitude..m. &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   Networks &lt;chr&gt;, AURN.Pollutants.Measured &lt;chr&gt;, Site.Description &lt;chr&gt;</span></code></pre></div>
+<p>There are currently 6611 stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:</p>
 <ul>
 <li>
 <code>site_name</code> IDs of specific site (UK.AIR.ID). By default this is left blank to get info on all the available sites.</li>
@@ -156,7 +167,7 @@
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># How many stations have missing coordinates?</span>
 <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Latitude</span><span class="op">)</span> <span class="op">|</span> <span class="fu"><a href="https://rdrr.io/r/base/NA.html">is.na</a></span><span class="op">(</span><span class="va">stations</span><span class="op">$</span><span class="va">Longitude</span><span class="op">)</span><span class="op">)</span><span class="op">)</span>
-<span class="co">#&gt; [1] 0</span></code></pre></div>
+<span class="co">#&gt; [1] 2763</span></code></pre></div>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># Scrape DEFRA website to get Easting/Northing (if available)</span>
 <span class="va">stations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/ukair_get_coordinates.html">ukair_get_coordinates</a></span><span class="op">(</span><span class="va">stations</span><span class="op">)</span>
