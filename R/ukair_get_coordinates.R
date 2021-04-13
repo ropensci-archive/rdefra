@@ -48,7 +48,7 @@ ukair_get_coordinates.character <- function(ids){
   df <- data.frame(t(sapply(ids[rows_non_na], ukair_get_coordinates_internal)))
   sfdf_en <- sf::st_as_sf(df, coords = c("Easting", "Northing"), crs = 27700)
   sfdf_latlon <- sf::st_transform(sfdf_en, crs = 4326)
-  
+
   df_extended <- data.frame(UK.AIR.ID = ids,
                             Longitude = NA, Latitude = NA,
                             Easting = NA, Northing = NA)
@@ -63,7 +63,7 @@ ukair_get_coordinates.character <- function(ids){
 }
 
 #' @export
-ukair_get_coordinates.data.frame <- function(ids){
+ukair_get_coordinates.data.frame <- function(ids) {
   
   if (!"Northing" %in% names(ids)) ids$Northing <- NA
   if (!"Easting" %in% names(ids)) ids$Easting <- NA
@@ -120,7 +120,7 @@ ukair_get_coordinates.data.frame <- function(ids){
 #' @noRd
 #'
 
-ukair_get_coordinates_internal <- function(uka_id){
+ukair_get_coordinates_internal <- function(uka_id) {
   
   resp <- ukair_api(url,
                     path = "networks/site-info",

@@ -3,10 +3,11 @@ context("Metadata")
 test_that("Catalogue should be a data.frame.", {
 
   x <- try(ukair_catalogue(), silent = TRUE)
-  
+
   if ("try-error" %in% class(x) | is.null(class(x))){
     skip("Catalogue could not be retrieved")
   }else{
+    message(paste("class(x): ", class(x)))
     expect_true("data.frame" %in% class(x))
     closeAllConnections()
   }
