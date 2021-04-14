@@ -2,10 +2,9 @@
 ukair_url <- "http://uk-air.defra.gov.uk"
 
 # Main API function
-ukair_api <- function(url = ukair_url, path, query) {
-  url_path <- httr::modify_url(url = url, path = path)
-  gracefully_fail(url_path)
-  resp <- httr::GET(url = url, path = path, query = query)
+ukair_api <- function(url = ukair_url, path = "", query = "") {
+  url_test <- httr::modify_url(url = url, path = path, query = query)
+  resp <- gracefully_fail(url_test)
   return(resp)
 }
 
@@ -43,5 +42,7 @@ gracefully_fail <- function(remote_file) {
     httr::message_for_status(resp)
     return(invisible(NULL))
   }
+
+  return(resp)
 
 }
