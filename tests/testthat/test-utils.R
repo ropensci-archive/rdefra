@@ -1,6 +1,7 @@
 test_that("UKAIR endpoint works", {
 
   x <- try(ukair_api(path = "", query = ""), silent = TRUE)
+
   if ("try-error" %in% class(x) | is.null(class(x)) | class(x) == "NULL") {
     skip("UKAIR endpoint is not available")
   }else{
