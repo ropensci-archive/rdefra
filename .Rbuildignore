@@ -3,5 +3,7 @@
 cran-comments.md
 inst/extdata
 inst/paper
+vignettes/rdefra_vignette.Rmd.orig
+vignettes/precompile.R
 _pkgdown.yml
 ^\.github$

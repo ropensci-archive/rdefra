@@ -1,7 +1,7 @@
 ---
 title: "rdefra: Interact with the UK AIR Pollution Database from DEFRA"
 author: "Claudia Vitolo"
-date: "2022-03-26"
+date: "`r Sys.Date()`"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{rdefra: Interact with the UK AIR Pollution Database from DEFRA}
@@ -9,7 +9,15 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
   
-
+```{r setup, echo = FALSE}
+knitr::opts_chunk$set(
+  comment = "#>",
+  collapse = TRUE,
+  warning = FALSE,
+  message = FALSE,
+  eval = FALSE
+)
+```
 
 # Introduction
 The package rdefra allows to retrieve air pollution data from the Air Information Resource (UK-AIR, https://uk-air.defra.gov.uk/) of the Department for Environment, Food and Rural Affairs (DEFRA) in the United Kingdom. UK-AIR does not provide a public API for programmatic access to data, therefore this package scrapes the HTML pages to get relevant information.
@@ -22,23 +30,20 @@ The package is designed to collect data efficiently. It allows to download multi
 
 Get the released version from CRAN:
   
-
-```r
+```{r installation_cran}
 install.packages("rdefra")
 ```
 
 Or the development version from GitHub using the package `remotes`:
 
-
-```r
+```{r installation_github}
 install.packages("remotes")
 remotes::install_github("ropensci/rdefra")
 ```
 
 Load the rdefra package:
   
-
-```r
+```{r load_library, eval = TRUE}
 library("rdefra")
 ```
 
@@ -53,24 +58,13 @@ The package logic assumes that users access the UK-AIR database in two steps:
 
 The list of monitoring stations can be downloaded using the function `ukair_catalogue()` with no input parameters, as in the example below. 
 
-
-```r
+```{r catalogue_full, eval = TRUE}
 # Get full catalogue
 stations <- ukair_catalogue()
-#> Error in httr::content(resp, encoding = "UTF-8"): is.response(x) is not TRUE
 head(stations)
-#> # A tibble: 6 × 17
-#>   UK.AIR.ID EU.Site.ID EMEP.Site.ID Site.Name  Environment.Type Zone  Start.Date          End.Date            Latitude Longitude Northing Easting Altitude..m. Networks AURN.Pollutants… Site.Description SiteID
-#>   <chr>     <chr>      <chr>        <chr>      <chr>            <chr> <dttm>              <dttm>                 <dbl>     <dbl>    <dbl>   <dbl>        <dbl> <chr>    <chr>            <chr>            <chr> 
-#> 1 UKA15910  <NA>       <NA>         SH15, SH2… <NA>             Sout… 2003-03-01 00:00:00 2003-10-01 00:00:00     51.3    -0.744   158876  487639         71.0 DEFRA N… <NA>             <NA>             <NA>  
-#> 2 UKA15956  <NA>       <NA>         SH15, SH2… <NA>             Sout… 2003-08-01 00:00:00 2005-06-01 00:00:00     51.3    -0.631   158871  495503         49.9 DEFRA N… <NA>             <NA>             <NA>  
-#> 3 UKA16663  <NA>       <NA>         SH15, SH2… <NA>             Sout… 2005-05-03 00:00:00 NA                      51.3    -0.728   159750  488750         83.0 DEFRA N… <NA>             <NA>             <NA>  
-#> 4 UKA16097  <NA>       <NA>         10 High S… <NA>             Sout… 2004-03-01 00:00:00 NA                      51.2     0.272   146166  558864         NA   DEFRA N… <NA>             <NA>             <NA>  
-#> 5 UKA12536  <NA>       <NA>         ABBOTS LA… <NA>             Grea… 1975-04-01 00:00:00 1977-03-28 00:00:00     51.7    -0.417   201800  509500         NA   Smoke a… <NA>             <NA>             <NA>  
-#> 6 UKA12949  <NA>       <NA>         ABERBARGO… <NA>             Sout… 1979-04-03 00:00:00 1982-03-29 00:00:00     51.7    -3.23    200300  315400         NA   Smoke a… <NA>             <NA>             <NA>
 ```
 
-There are currently 6611 stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:
+There are currently `r dim(stations)[1]` stations in UK-AIR. The same function, can be used to filter the catalogue using the following input parameters:
 
   * `site_name` IDs of specific site (UK.AIR.ID). By default this is left blank to get info on all the available sites.
   * `pollutant` This is an integer between 1 and 10. Default is 9999, which means all the pollutants.
@@ -79,36 +73,23 @@ There are currently 6611 stations in UK-AIR. The same function, can be used to f
   * `country_id` This is the identification number of the country, it can be an integer between 1 and 6. Default is 9999, which means all the countries.
   * `region_id` This is the identification number of the region. 1 = Aberdeen City, etc. (for the full list see https://uk-air.defra.gov.uk/). Default is 9999, which means all the local authorities.
 
-
-```r
+```{r catalogue_filter, eval = TRUE}
 stations_EnglandOzone <- ukair_catalogue(pollutant = 1, country_id = 1)
 head(stations_EnglandOzone)
-#> # A tibble: 6 × 16
-#>   UK.AIR.ID EU.Site.ID EMEP.Site.ID Site.Name         Environment.Type Zone  Start.Date          End.Date            Latitude Longitude Northing Easting Altitude..m. Networks AURN.Pollutants… Site.Description
-#>   <chr>     <chr>      <chr>        <chr>             <chr>            <chr> <dttm>              <dttm>                 <dbl>     <dbl>    <dbl>   <dbl>        <dbl> <chr>    <chr>            <chr>           
-#> 1 UKA00353  GB0681A    <NA>         Barnsley Gawber   Urban Background York… 1997-07-07 00:00:00 NA                      53.6     -1.51  407478. 432524.          100 Automat… <NA>             The monitoring …
-#> 2 UKA00626  GB1067A    <NA>         Birmingham A4540… Urban Traffic    West… 2016-09-06 00:00:00 NA                      52.5     -1.88  286470. 408586.          109 Automat… <NA>             Roadside monito…
-#> 3 UKA00559  GB1013A    <NA>         Birmingham Acock… Urban Background West… 2011-03-18 00:00:00 NA                      52.4     -1.83  282146  411654           134 Automat… <NA>             The monitoring …
-#> 4 UKA00214  GB0569A    <NA>         Birmingham Centre Urban Background West… 1992-03-18 00:00:00 2009-01-14 00:00:00     52.5     -1.91  286870. 406340           163 Automat… <NA>             The monitoring …
-#> 5 UKA00229  GB0595A    <NA>         Birmingham East   Urban Background West… 1993-08-04 00:00:00 2004-10-01 00:00:00     52.5     -1.83  288872. 411536.          100 Automat… <NA>             Within playgrou…
-#> 6 UKA00655  GB1097A    <NA>         Birmingham Ladyw… Urban Background West… 2018-06-01 00:00:00 NA                      52.5     -1.92  287050  405650           134 Automat… <NA>             <NA>
 ```
 
-The example above shows how to retrieve the 108 stations in England in which ozone is measured.
+The example above shows how to retrieve the `r dim(stations_EnglandOzone)[1]` stations in England in which ozone is measured.
 
 ### Get missing coordinates
 
 Locating a station is extremely important to be able to carry out any spatial analysis. If coordinates are missing, for some stations in the catalogue, it might be possible to retrieve Easting and Northing coordinates (British National Grid) from DEFRA web pages, transform them to latitude and longitude and populate the missing coordinates as shown below.
 
-
-```r
+```{r get_coords1, eval = TRUE}
 # How many stations have missing coordinates?
 length(which(is.na(stations$Latitude) | is.na(stations$Longitude)))
-#> [1] 2
 ```
 
-
-```r
+```{r get_coords2, eval = FALSE}
 # Scrape DEFRA website to get Easting/Northing (if available)
 stations <- ukair_get_coordinates(stations)
 
@@ -123,8 +104,7 @@ Pollution data started to be collected in 1972 and consists of hourly concentrat
 
 The ID under which these data are available differs from the UK.AIR.ID. The catalogue does not contain this additional station ID (called SiteID hereafter) but DEFRA's web pages contain references to both the UK.AIR.ID and the SiteID. The function below uses as input the UK.AIR.ID and outputs the SiteID, if available. 
 
-
-```r
+```{r get_site_id, eval = FALSE}
 stations$SiteID <- ukair_get_site_id(stations$UK.AIR.ID)
 ```
 
@@ -134,8 +114,7 @@ Please note this function takes several minutes to run.
 
 For convenience, a cached version of the catalogue (last updated in April 2021) is included in the package and can be loaded using the following command:
 
-
-```r
+```{r load_dataset_stations}
 data("stations")
 ```
 
@@ -145,8 +124,7 @@ The cached catalogue contains all the available siteIDs and coordinates and can 
 
 Once the SiteID is known, time series for a given station can be retrieved in one line of code:
   
-
-```r
+```{r get_hourly_data, eval = FALSE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:hdata}Hourly ozone data from London Marylebone Road monitoring station in 2015"}
 # Get 1 year of hourly ozone data from London Marylebone Road monitoring station
 df <- ukair_get_hourly_data("MY1", years = 2015)
 
@@ -166,8 +144,7 @@ The above figure \ref{fig:hdata} shows the highest concentrations happen in late
 
 The code below explores the distribution of ozone by month. The resulting box plots show that the highest concentrations usually occurr during April/May and that these vary year-by-year.
 
-
-```r
+```{r ozone_data, eval = FALSE}
 # Get 15 years of hourly ozone data from the same monitoring station
 library("ggplot2")
 library("dplyr")
@@ -197,8 +174,7 @@ df %>%
 
 After scraping DEFRA's web pages, almost all the stations have valid coordinates. You can create an interactive map using leaflet. The code below generates a map where blue circles are all the stations with valid coordinates, while red circles show locations with available hourly data.
 
-
-```r
+```{r map_data, eval = FALSE}
 # Keep only station with coordinates
 stations_with_coords <- stations[complete.cases(stations[, c("Longitude",
                                                              "Latitude")]), ]
@@ -223,15 +199,13 @@ leaflet(data = stations_with_coords) %>% addTiles() %>%
 
 Below are two plots showing the spatial distribution of the monitoring stations. These are concentrated largely in urban areas and mostly estimate the background level of concentration of pollutants.
 
-
-```r
+```{r dotchart1, eval = FALSE, fig.width = 7, fig.height = 10, fig.cap = "\\label{fig:dotchart1}Spatial distribution of the monitoring stations across zones."}
 # Zone
 dotchart(as.matrix(table(stations$Zone))[,1])
 ```
 ![dotchart_zone.png](dotchart_zone.png)
 
-
-```r
+```{r dotchart2, eval = FALSE, fig.width = 7, fig.height = 5, fig.cap = "\\label{fig:dotchart2}Spatial distribution of the monitoring stations across environment types."}
 # Environment.Type
 dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != "Unknown Unknown"]))[,1])
 ```
@@ -241,8 +215,7 @@ dotchart(as.matrix(table(stations$Environment.Type[stations$Environment.Type != 
 
 The acquisition of data from hundreds of sites takes only few minutes:
 
-
-```r
+```{r parallel_example, eval = FALSE}
 library("parallel")
 
 # Use detectCores() to find out many cores are available on your machine
