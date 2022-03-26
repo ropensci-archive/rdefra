@@ -57,7 +57,16 @@ ukair_get_site_id_internal <- function(uka_id) {
 
   }
 
-  if (length(as.list(site_id)) == 0) site_id <- NA
+  if (length(as.list(site_id)) == 0) {
+
+    site_id <- NA
+    # if the siteID is unknown, a workaround is to search the cached catalogue.
+    # BETTER SOLUTION IS NEEDED! THE SITEID CAN NO LONGER BE RETRIEVED BY THE
+    # UK AIR SITE INFORMATION WEB PAGE.
+    cached_station_catalogue <- rdefra::stations
+    x <- cached_station_catalogue$SiteID[cached_station_catalogue$UK.AIR.ID == uka_id]
+    if (!is.na(x)) site_id <- x
+  }
 
   return(site_id)
 
