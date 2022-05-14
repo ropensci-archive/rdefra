@@ -1,11 +1,15 @@
 Package: rdefra
 Title: Retrieve Data from the UK AIR Database
 Version: 0.3.9
-Authors@R: c(person(given = "Claudia",
+Authors@R: c(person(given = "Cheryl",
+                    family = "Lim",
+                    role = c("ctb", "cre"),
+                    email = "xxx@yyy.com"),
+             person(given = "Claudia",
                     family = "Vitolo",
-                    role = c("aut", "cre"),
+                    role = c("aut"),
                     email = "cvitolodev@gmail.com",
-                    comment = c(ORCID = "0000-0002-4252-1176")),
+                    comment = c(ORCID = "0000-0002-4252-1176", "Claudia is the original creator of the package")),
              person("Andrew", "Russell", role = c("ctb"),
                     comment = "This package is part of the KEHRA project and
                     Andrew supervised the technical/software development."),
