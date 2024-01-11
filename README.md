@@ -4,7 +4,7 @@
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.00051/status.svg)](https://doi.org/10.21105/joss.00051)
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/ropensci/rdefra/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rdefra/actions)
+[![R-CMD-check](https://github.com/ropensci/rdefra/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/ropensci/rdefra/actions/workflows/R-CMD-check.yaml)
 [![codecov.io](https://codecov.io/gh/ropensci/rdefra/coverage.svg?branch=master)](https://app.codecov.io/gh/ropensci/rdefra?branch=master)
 [![CRAN Status
 Badge](http://www.r-pkg.org/badges/version/rdefra)](https://cran.r-project.org/package=rdefra)
