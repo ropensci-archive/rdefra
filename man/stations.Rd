@@ -34,11 +34,14 @@ A data frame with 6561 observations on the following 14 variables.
 \url{https://uk-air.defra.gov.uk/}
 }
 \usage{
-data("stations")
+stations
 }
 \description{
 This is the list of all the air quality monitoring stations ever
 installed in the UK and operated by DEFRA networks (as per February 2016).
 As the network expands, metadata for new stations will be added.
+}
+\examples{
+stations
 }
 \keyword{datasets}
