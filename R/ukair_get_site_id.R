@@ -1,6 +1,6 @@
 #' Get site identification numbers for DEFRA stations
 #'
-#' @description Given the UK AIR ID (from the \code{ukair_catalogue()}), this
+#' @description Given the UK AIR ID (from [ukair_catalogue()]), this
 #' function fetches the catalogue of monitoring stations from DEFRA's website.
 #'
 #' @param id_s An alphanumeric string (or vector of strings) containing the UK

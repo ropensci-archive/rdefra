@@ -3,9 +3,9 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.593187.svg)](https://doi.org/10.5281/zenodo.593187)
 [![JOSS](https://joss.theoj.org/papers/10.21105/joss.00051/status.svg)](https://doi.org/10.21105/joss.00051)
 
+<!-- badges: start -->
 [![R-CMD-check](https://github.com/ropensci/rdefra/workflows/R-CMD-check/badge.svg)](https://github.com/ropensci/rdefra/actions)
-[![codecov.io](https://codecov.io/gh/ropensci/rdefra/coverage.svg?branch=master)](https://codecov.io/gh/ropensci/rdefra?branch=master)
-
+[![codecov.io](https://codecov.io/gh/ropensci/rdefra/coverage.svg?branch=master)](https://app.codecov.io/gh/ropensci/rdefra?branch=master)
 [![CRAN Status
 Badge](http://www.r-pkg.org/badges/version/rdefra)](https://cran.r-project.org/package=rdefra)
 [![CRAN Total
@@ -13,6 +13,7 @@ Downloads](http://cranlogs.r-pkg.org/badges/grand-total/rdefra)](https://cran.r-
 [![CRAN Monthly
 Downloads](http://cranlogs.r-pkg.org/badges/rdefra)](https://cran.r-project.org/package=rdefra)
 [![](https://badges.ropensci.org/68_status.svg)](https://github.com/ropensci/software-review/issues/68)
+<!-- badges: end -->
 
 The package [rdefra](https://cran.r-project.org/package=rdefra) allows
 to retrieve air pollution data from the Air Information Resource
@@ -36,7 +37,7 @@ DEFRA’s servers can handle multiple data requests, therefore concurrent
 calls can be sent simultaneously using the
 [parallel](https://www.R-project.org/) package. Although the limit rate
 depends on the maximum number of concurrent calls, traffic and available
-infrustracture, data retrieval is very efficient. Multiple years of data
+infrastructure, data retrieval is very efficient. Multiple years of data
 for hundreds of sites can be downloaded in only few minutes.
 
 For similar functionalities see also the
@@ -65,13 +66,13 @@ remotes::install_github("ropensci/rdefra")
 Load the rdefra package:
 
 ``` r
-library("rdefra")
+library(rdefra)
 ```
 
 ## Functions
 
 The package logic assumes that users access the UK-AIR database in the
-fllowing steps:
+following steps:
 
 1.  Browse the catalogue of available stations and selects some stations
     of interest (see function `ukair_catalogue()`).
@@ -79,7 +80,7 @@ fllowing steps:
 3.  Retrieves data for the selected stations (see functions
     `ukair_get_site_id()` and `ukair_get_hourly_data()`).
 
-For an in-depth description of the various functionalities andexample
+For an in-depth description of the various functionalities and example
 applications, please refer to the package
 [vignette](https://github.com/ropensci/rdefra/blob/master/vignettes/rdefra_vignette.Rmd).
 
@@ -88,7 +89,7 @@ applications, please refer to the package
   - This package and functions herein are part of an experimental open-source project. They are provided as is, without any guarantee.
   - Please [report any issues or
     bugs](https://github.com/ropensci/rdefra/issues).
-  - License: [GPL-3](https://opensource.org/licenses/GPL-3.0)
+  - License: [GPL-3](https://opensource.org/license/gpl-3-0/)
   - This package was reviewed by [Maëlle
     Salmon](https://github.com/maelle) and [Hao
     Zhu](https://github.com/haozhu233) for submission to ROpenSci (see

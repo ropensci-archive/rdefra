@@ -7,3 +7,4 @@ vignettes/rdefra_vignette.Rmd.orig
 vignettes/precompile.R
 _pkgdown.yml
 ^\.github$
+^rdefra\.Rproj$

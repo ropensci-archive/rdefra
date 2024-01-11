@@ -34,8 +34,8 @@ test_that("Try and retrieve hourly data for 2 years", {
   if ("try-error" %in% class(x) | is.null(class(x))) {
     skip("Call to ukair_get_hourly_data for 2 years failed!")
   }else{
-    expect_true("data.frame" %in% class(x))
-    expect_true(all(dim(x) == c(17544, 20)))
+    expect_s3_class(x, "data.frame")
+    expect_equal(dim(x),  c(17544, 20))
   }
 
 })
