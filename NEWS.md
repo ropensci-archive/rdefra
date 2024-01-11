@@ -1,3 +1,8 @@
+rdefra (development)
+==============
+
+Remove dependency on rgdal.
+
 rdefra 0.3.8
 ==============
 
