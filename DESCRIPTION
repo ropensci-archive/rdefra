@@ -1,13 +1,13 @@
 Package: rdefra
-Title: Retrieve Data from the UK AIR Database
-Version: 0.3.9
+Title: Interact with the UK AIR Pollution Database from DEFRA
+Version: 0.3.9.9000
 Authors@R: c(person(given = "Cheryl",
                     family = "Lim",
-                    role = c("aut", "cre"),
+                    role = c("aut"),
                     email = "cheryl.academic@gmail.com"),
              person(given = "Claudia",
                     family = "Vitolo",
-                    role = c("aut"),
+                    role = c("aut", "cre"),
                     email = "cvitolodev@gmail.com",
                     comment = c(ORCID = "0000-0002-4252-1176", "Claudia is the original creator of the package")),
              person("Andrew", "Russell", role = c("ctb"),
@@ -22,7 +22,6 @@ Authors@R: c(person(given = "Cheryl",
              person("Hao", "Zhu", role = c("ctb"),
                     comment = "Hao Zhu reviewed the package for rOpenSci, see
                     https://github.com/ropensci/software-review/issues/68"))
-Maintainer: Claudia Vitolo <cvitolodev@gmail.com>
 URL: https://docs.ropensci.org/rdefra/, https://github.com/ropensci/rdefra
 BugReports: https://github.com/ropensci/rdefra/issues
 Description: This packages allows to retrieve air pollution data from the Air
@@ -33,12 +32,11 @@ Description: This packages allows to retrieve air pollution data from the Air
   The package is described in Vitolo et al. (2016) "rdefra: Interact with the
   UK AIR Pollution Database from DEFRA" <doi:10.21105/joss.00051>.
 Depends: R (>= 3.5.0)
-Imports: lubridate, tibble, httr, xml2, dplyr, sf, rgdal, curl
+Imports: lubridate, tibble, httr, xml2, dplyr, sf, curl
 Suggests: testthat, rmarkdown, knitr, ggplot2, zoo
-SystemRequirements: GDAL
 VignetteBuilder: knitr
 LazyData: true
 Encoding: UTF-8
 License: GPL-3
-Repository: CRAN
-RoxygenNote: 7.1.1
+RoxygenNote: 7.2.3
+Roxygen: list(markdown = TRUE)

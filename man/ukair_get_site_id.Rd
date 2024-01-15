@@ -14,7 +14,7 @@ AIR ID defined by DEFRA.}
 A named vector containing the site id_s.
 }
 \description{
-Given the UK AIR ID (from the \code{ukair_catalogue()}), this
+Given the UK AIR ID (from \code{\link[=ukair_catalogue]{ukair_catalogue()}}), this
 function fetches the catalogue of monitoring stations from DEFRA's website.
 }
 \examples{

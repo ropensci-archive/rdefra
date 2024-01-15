@@ -47,61 +47,61 @@ DEFRA's website.
 \details{
 The argument \code{Pollutant} is defined based on the following convention:
 \itemize{
- \item{1 = Ozone (O3)}
- \item{2 = Nitrogen oxides (NOx)}
- \item{3 = Carbon monoxide (CO)}
- \item{4 = Sulphur dioxide (SO2)}
- \item{5 = Particulate Matter (PM10)}
- \item{6 = Particulate Matter (PM2.5)}
- \item{7 = PAHs}
- \item{8 = Metals in PM10}
- \item{9 = Benzene}
- \item{10 = Black Carbon}
+\item{1 = Ozone (O3)}
+\item{2 = Nitrogen oxides (NOx)}
+\item{3 = Carbon monoxide (CO)}
+\item{4 = Sulphur dioxide (SO2)}
+\item{5 = Particulate Matter (PM10)}
+\item{6 = Particulate Matter (PM2.5)}
+\item{7 = PAHs}
+\item{8 = Metals in PM10}
+\item{9 = Benzene}
+\item{10 = Black Carbon}
 }
 
 The argument \code{group_id} is defined based on the following convention:
 \itemize{
- \item{1 = UKEAP: Precip-Net}
- \item{2 = Air Quality Strategy Pollutants}
- \item{3 = Ammonia and Nitric Acid}
- \item{4 = Automatic Urban and Rural Monitoring Network (AURN)}
- \item{5 = Dioxins and Furans}
- \item{6 = Black Smoke & SO2}
- \item{7 = Automatic Hydrocarbon Network}
- \item{8 = Heavy Metals}
- \item{9 = Nitrogen Dioxide Diffusion Tube}
- \item{10 = PAH Andersen}
- \item{11 = Particle Size Composition}
- \item{12 = PCBs}
- \item{13 = TOMPs}
- \item{14 = Non-Automatic Hydrocarbon Network}
- \item{15 = 1,3-Butadiene Diffusion Tube}
- \item{16 = Black Carbon}
- \item{17 = Automatic Urban and Rural Monitoring Network (AURN)}
- \item{18 = Defra NO2 Diffusion Tube}
- \item{19 = PAH Digitel (solid phase)}
- \item{20 = PAH Digitel (solid+vapour)}
- \item{21 = PAH Deposition}
- \item{22 = Particle size and number}
- \item{23 = Rural Automatic Mercury network}
- \item{24 = Urban Sulphate}
- \item{25 = UKEAP: Rural NO2}
- \item{26 = Automatic Urban and Rural Monitoring Network (AURN)}
- \item{27 = UKEAP: National Ammonia Monitoring Network}
- \item{28 = UKEAP: Acid Gases & Aerosol Network}
- \item{29 = Particle Speciation (MARGA)}
- \item{30 = UKEAP: Historic Aerosol measurements}
+\item{1 = UKEAP: Precip-Net}
+\item{2 = Air Quality Strategy Pollutants}
+\item{3 = Ammonia and Nitric Acid}
+\item{4 = Automatic Urban and Rural Monitoring Network (AURN)}
+\item{5 = Dioxins and Furans}
+\item{6 = Black Smoke & SO2}
+\item{7 = Automatic Hydrocarbon Network}
+\item{8 = Heavy Metals}
+\item{9 = Nitrogen Dioxide Diffusion Tube}
+\item{10 = PAH Andersen}
+\item{11 = Particle Size Composition}
+\item{12 = PCBs}
+\item{13 = TOMPs}
+\item{14 = Non-Automatic Hydrocarbon Network}
+\item{15 = 1,3-Butadiene Diffusion Tube}
+\item{16 = Black Carbon}
+\item{17 = Automatic Urban and Rural Monitoring Network (AURN)}
+\item{18 = Defra NO2 Diffusion Tube}
+\item{19 = PAH Digitel (solid phase)}
+\item{20 = PAH Digitel (solid+vapour)}
+\item{21 = PAH Deposition}
+\item{22 = Particle size and number}
+\item{23 = Rural Automatic Mercury network}
+\item{24 = Urban Sulphate}
+\item{25 = UKEAP: Rural NO2}
+\item{26 = Automatic Urban and Rural Monitoring Network (AURN)}
+\item{27 = UKEAP: National Ammonia Monitoring Network}
+\item{28 = UKEAP: Acid Gases & Aerosol Network}
+\item{29 = Particle Speciation (MARGA)}
+\item{30 = UKEAP: Historic Aerosol measurements}
 }
 
 The argument \code{country_id} is defined based on the following convention:
 \itemize{
- \item{1 = England}
- \item{2 = Wales}
- \item{3 = Scotland}
- \item{4 = Northern Ireland}
- \item{5 = Republic of Ireland}
- \item{6 = Channel Islands}
- }
+\item{1 = England}
+\item{2 = Wales}
+\item{3 = Scotland}
+\item{4 = Northern Ireland}
+\item{5 = Republic of Ireland}
+\item{6 = Channel Islands}
+}
 }
 \examples{
  \dontrun{
